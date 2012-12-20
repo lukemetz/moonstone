@@ -27,3 +27,15 @@ std::vector<int> Manager::get_entities(std::string name)
   }
   return pair;
 }
+
+void Manager::add_system(System *system)
+{
+  systems.push_back(system);
+}
+
+void Manager::update(float dt)
+{
+  for (System *system : systems) {
+    system->update(dt);
+  }
+}

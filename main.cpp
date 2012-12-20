@@ -3,6 +3,7 @@
 #include "utils/Vec3f.hpp"
 #include "Manager.hpp"
 #include "Transform.hpp"
+#include "Test_System.hpp"
 
 int main()
 {
@@ -15,6 +16,12 @@ int main()
   std::cout << t.x << t.y << t.z << std::endl;
   comp->pos = t;
   comp->rot = Vec3f(1.2, 3.2, 3.3);
+
+  Test_System * sys = new Test_System();
+  manager->add_system(sys);
+
+  manager->update(.01);
+
   std::vector<int> entities = manager->get_entities(comp->name());
   std::cout << entities.size() << " for " << comp->name() << std::endl;
   return 0;
