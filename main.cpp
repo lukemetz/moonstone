@@ -6,6 +6,7 @@
 #include "Transform.hpp"
 #include "Test_System.hpp"
 #include "Lua_System.hpp"
+#include "Lua_Component.hpp"
 
 void report_errors(lua_State *L, int status)
 {
@@ -32,6 +33,12 @@ int main()
   lua_sys->add_system("lua_system.lua");
   lua_sys->add_system("lua_system.lua");
   lua_sys->add_system("lua_system.lua");
+
+  Lua_Component * lua_comp = new Lua_Component(lua_sys->get_lua_state(), "lua_component.lua");
+  manager->add_component(index, lua_comp);
+
+  std::vector<int > entities = manager->get_entities("lua_component");
+  std::cout << entities.size() << " out out" << std::endl;
   manager->update(1.1);
   return 0;
 }
