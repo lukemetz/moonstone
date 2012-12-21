@@ -6,7 +6,8 @@ solution "moonstone"
     kind "ConsoleApp"
     language "C++"
     files {"*.hpp", "*.cpp"}
-    includedirs {".", "x86_64-linux-gnu/lua5.2"}
+    includedirs {".", "/usr/include/lua5.2/"}
+    
     links{'lua5.2'}
     buildoptions {"--std=c++11" } ---Wall -Wextra
     configuration "Debug"
