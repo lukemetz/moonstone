@@ -1,5 +1,6 @@
 #include "Lua_System.hpp"
 #include <iostream>
+
 Lua_System::Lua_System()
 {
   L = luaL_newstate();
@@ -15,6 +16,10 @@ Lua_System::~Lua_System()
   lua_close(L);
 }
 
+lua_State * Lua_System::get_lua_state()
+{
+  return L;
+}
 void Lua_System::init()
 {
 }
@@ -36,6 +41,25 @@ void Lua_System::add_system(std::string filename)
   lua_pop(L, 1);
 
   scripts.push_back(filename);
+
+  //run init
+  lua_rawgeti(L, LUA_REGISTRYINDEX, systems_ref);
+  lua_getfield(L, -1, filename.c_str());
+
+  lua_getfield(L, -1, "init");
+  lua_pushvalue(L, -2); //push setlf
+  s = lua_pcall(L, 1, 1, 0);
+  report_errors(s);
+  int n = lua_rawlen(L, -1);
+  std::cout << "len " << n << std::endl;
+
+  lua_pushnil(L);
+  for (int i=0; i < n; i++) {
+    lua_next(L, -2*i);
+    const char * v = lua_tostring(L, -1);
+    lua_pop(L, 1);
+  }
+  lua_pop(L,1);
 }
 
 void Lua_System::update(float dt)

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <lua5.2/lua.hpp>
 #include <string>
 #include <vector>
@@ -11,7 +13,7 @@ struct Lua_System : public System
   void init();
   void update(float dt);
   void add_system(std::string filename);
-
+  lua_State * get_lua_state();
 private:
   lua_State *L;
   int systems_ref;
