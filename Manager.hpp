@@ -8,7 +8,7 @@ class Manager
 public:
   Manager();
   int createEntity();
-  void addComponent(int index, Component *component);
+  void add_component(int index, Component *component);
   std::vector<int> get_entities(std::string name);
 
   void add_system(System * system);

@@ -20,7 +20,7 @@ int main()
   Manager *manager = new Manager();
   int index = manager->createEntity();
   Transform *comp = new Transform();
-  manager->addComponent(index, comp);
+  manager->add_component(index, comp);
   Vec3f t = Vec3f(1,2,3);
   comp->pos = t;
   comp->rot = Vec3f(1.2, 3.2, 3.3);

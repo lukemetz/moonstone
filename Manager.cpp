@@ -10,7 +10,7 @@ int Manager::createEntity()
   return on_entity++;
 }
 
-void Manager::addComponent(int entity, Component *component)
+void Manager::add_component(int entity, Component *component)
 {
   component_lookup.insert(std::pair<std::string, int>(component->name(), entity));
   entity_lookup[entity].push_back(component);
