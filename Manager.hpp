@@ -12,9 +12,9 @@ public:
   std::vector<int> get_entities(std::string name);
 
   void add_system(System * system);
-
   void update(float dt);
 
+  std::vector<int> get_entities(std::vector<std::string> components);
 private:
   std::multimap<std::string, int> component_lookup;
   std::map<int, std::vector<Component *>> entity_lookup;
