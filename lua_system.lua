@@ -8,10 +8,11 @@ end
 
 function lua_system:update(dt, entity)
   print(dt+1);
-  --print(entity.Transform)
-  --print(entity.lua_component)
-  --print(entity)
-  --print("Hello world")
+  print("trying things")
+  print(entity.Transform)
+  print(entity.lua_component.shape)
+  print(entity)
+  print("Hello world")
 end
 
 --x = 1

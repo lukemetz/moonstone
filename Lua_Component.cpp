@@ -5,7 +5,6 @@
 Lua_Component::Lua_Component(lua_State *lua_state, std::string filename)
 {
   L = lua_state;
-  lua_settop(L, 0);
 
   int s = luaL_dofile(L, filename.c_str());
   report_errors(s);

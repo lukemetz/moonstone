@@ -1,5 +1,5 @@
 return {
-  color = {x=1, y=1, z=2},
+  color = Vec3f(1,2,3),
   shape = "Triangle",
   attack = 1.2
 }
