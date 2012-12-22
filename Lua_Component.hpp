@@ -10,7 +10,7 @@ struct Lua_Component : public Component
 {
   Lua_Component(lua_State *lua_state, std::string filename);
   virtual std::string name();
-
+  virtual int get_lua_ref(lua_State * L);
 private:
   std::string component_name;
   int component_ref;

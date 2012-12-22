@@ -24,6 +24,11 @@ void Lua_Component::report_errors(int status)
   }
 }
 
+int Lua_Component::get_lua_ref(lua_State * L)
+{
+  return component_ref;
+}
+
 std::string Lua_Component::name()
 {
   return component_name;
