@@ -14,7 +14,7 @@ int Manager::createEntity()
 void Manager::add_component(int entity, Component *component)
 {
   component_lookup.insert(std::pair<std::string, int>(component->name(), entity));
-  entity_lookup[entity].push_back(component);
+  entity_lookup[entity][component->name()] = component;
 }
 
 std::vector<int> Manager::get_entities(std::string name)
@@ -41,6 +41,11 @@ std::vector<int> Manager::get_entities(std::vector<std::string> components)
     sum = output;
   }
   return sum;
+}
+
+Component * Manager::get_component(int entity, std::string component_name)
+{
+  return entity_lookup[entity][component_name];
 }
 
 void Manager::add_system(System *system)

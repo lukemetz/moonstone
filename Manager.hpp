@@ -15,9 +15,11 @@ public:
   void update(float dt);
 
   std::vector<int> get_entities(std::vector<std::string> components);
+
+  Component * get_component(int entity, std::string component_name);
 private:
   std::multimap<std::string, int> component_lookup;
-  std::map<int, std::vector<Component *>> entity_lookup;
+  std::map<int, std::map<std::string, Component *>> entity_lookup;
   std::vector<System *> systems;
   int on_entity;
 
