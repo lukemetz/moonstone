@@ -8,15 +8,15 @@
 
 struct Lua_System : public System
 {
-  Lua_System();
+  Lua_System(lua_State * lua_state, std::string filename);
   ~Lua_System();
   void init();
   void update(float dt);
-  void add_system(std::string filename);
   lua_State * get_lua_state();
 private:
   lua_State *L;
-  int systems_ref;
-  std::vector<std::string> scripts;
+  int script_ref;
+  std::string script_name;
+  std::vector<std::string> components;
   void report_errors(int status);
 };

@@ -7,6 +7,7 @@
 #include "Test_System.hpp"
 #include "Lua_System.hpp"
 #include "Lua_Component.hpp"
+#include "Lua_Manager.hpp"
 
 void report_errors(lua_State *L, int status)
 {
@@ -19,7 +20,9 @@ void report_errors(lua_State *L, int status)
 int main()
 {
   Manager *manager = new Manager();
+  Lua_Manager *lua_man = new Lua_Manager();
   int index = manager->createEntity();
+
   Transform *comp = new Transform();
   manager->add_component(index, comp);
   Vec3f t = Vec3f(1,2,3);
@@ -28,17 +31,18 @@ int main()
 
   Test_System * sys = new Test_System();
   manager->add_system(sys);
-  Lua_System * lua_sys = new Lua_System();
+  Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua_system.lua");
   manager->add_system(lua_sys);
-  lua_sys->add_system("lua_system.lua");
-  lua_sys->add_system("lua_system.lua");
-  lua_sys->add_system("lua_system.lua");
 
-  Lua_Component * lua_comp = new Lua_Component(lua_sys->get_lua_state(), "lua_component.lua");
+  Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua_component.lua");
   manager->add_component(index, lua_comp);
 
-  std::vector<int > entities = manager->get_entities("lua_component");
+  std::vector<std::string> components;
+  components.push_back("lua_component");
+  components.push_back("Transform");
+  std::vector<int > entities = manager->get_entities(components);
   std::cout << entities.size() << " out out" << std::endl;
+
   manager->update(1.1);
   return 0;
 }
