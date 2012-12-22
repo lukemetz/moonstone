@@ -12,6 +12,6 @@ struct System
     manager = manag;
   };
 
-private:
+protected:
   Manager * manager;
 };

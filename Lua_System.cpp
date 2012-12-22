@@ -1,5 +1,6 @@
 #include "Lua_System.hpp"
 #include <iostream>
+#include "Manager.hpp"
 
 Lua_System::Lua_System(lua_State * lua_state, std::string filename)
 {
@@ -52,15 +53,42 @@ void Lua_System::report_errors(int status)
   }
 }
 
+void Lua_System::create_ref_vector()
+{
+  std::vector<int> entities = manager->get_entities(components);
+  for(auto entity : entities) {
+    lua_settop(L, 0);
+    lua_newtable(L);
+    for(std::string component_name : components) {
+      std::cout << "entity #" << entity << "With comp:" << component_name << std::endl;
+      Component * component = manager->get_component(entity, component_name);
+      int ref = component->get_lua_ref(L);
+      lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+      lua_setfield(L, -2, component_name.c_str());
+    }
+    int table_ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    entity_ref_vector[entity] = table_ref;
+    std::cout << "Setting: " << table_ref << std::endl;
+  }
+  lua_settop(L, 0);
+}
+
 void Lua_System::update(float dt)
 {
-  lua_settop(L, 0);
-  lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
+  create_ref_vector();
+  for(int entity : manager->get_entities(components)) {
+    //reset the stack
+    lua_settop(L, 0);
+    lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
 
-  lua_getfield(L, -1, "update");
-  lua_pushvalue(L, -2); //push setlf
-  lua_pushnumber(L, dt);
-  int s = lua_pcall(L, 2, 0, 0);
-  report_errors(s);
-  lua_pop(L,1);
+    lua_getfield(L, -1, "update");
+    lua_pushvalue(L, -2); //push setlf
+    lua_pushnumber(L, dt);
+    //push the entity
+    lua_rawgeti(L, LUA_REGISTRYINDEX, entity_ref_vector[0]);
+
+    int s = lua_pcall(L, 3, 0, 0);
+    report_errors(s);
+    lua_pop(L,1);
+  }
 }
