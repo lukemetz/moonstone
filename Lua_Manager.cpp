@@ -1,10 +1,14 @@
 #include "Lua_Manager.hpp"
+#include <iostream>
+
+Lua_Manager * Lua_Manager::instance = 0;
 
 Lua_Manager::Lua_Manager()
 {
   L = luaL_newstate();
   luaL_openlibs(L);
   luaL_dofile(L, "lua/utils/Vec3f.lua");
+  instance = this;
 }
 
 Lua_Manager::~Lua_Manager()
@@ -12,7 +16,34 @@ Lua_Manager::~Lua_Manager()
   lua_close(L);
 }
 
+Lua_Manager * Lua_Manager::get_instance()
+{
+  return instance;
+}
+
+void Lua_Manager::report_errors(int status)
+{
+  if (status != 0 ) {
+    std::cerr << "ERROR-- " << lua_tostring(L, -1) << std::endl;
+    lua_pop(L, 1);
+  }
+}
+
 lua_State * Lua_Manager::get_lua_state()
 {
   return L;
+}
+
+int Lua_Manager::to_lua_ref(const Vec3f &vec)
+{
+  lua_getglobal(L, "Vec3f");
+  lua_pushnumber(L, vec.x);
+  lua_pushnumber(L, vec.y);
+  lua_pushnumber(L, vec.z);
+
+  int s = lua_pcall(L, 3, 1, 0);
+  report_errors(s);
+
+  int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+  return ref;
 }
