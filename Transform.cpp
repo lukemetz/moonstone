@@ -20,3 +20,18 @@ int Transform::get_lua_ref(lua_State * L)
   int ref = luaL_ref(L, LUA_REGISTRYINDEX);
   return ref;
 }
+
+void Transform::update_from_lua(lua_State * L)
+{
+  lua_getfield(L, -1, "pos");
+  Lua_Manager::get_instance()->from_lua(pos);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "rot");
+  Lua_Manager::get_instance()->from_lua(rot);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "scale");
+  Lua_Manager::get_instance()->from_lua(scale);
+  lua_pop(L, 1);
+}

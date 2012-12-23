@@ -10,6 +10,9 @@ public:
   ~Lua_Manager();
   lua_State * get_lua_state();
   int to_lua_ref(const Vec3f &vec);
+
+  void from_lua(Vec3f &vec);
+
   static Lua_Manager * get_instance();
   static Lua_Manager * instance;
 private:

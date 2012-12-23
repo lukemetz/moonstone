@@ -47,3 +47,18 @@ int Lua_Manager::to_lua_ref(const Vec3f &vec)
   int ref = luaL_ref(L, LUA_REGISTRYINDEX);
   return ref;
 }
+
+void Lua_Manager::from_lua(Vec3f &vec)
+{
+  lua_getfield(L, -1, "x");
+  vec.x = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "y");
+  vec.y = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "z");
+  vec.z = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+}

@@ -25,4 +25,5 @@ private:
 
   void report_errors(int status);
   void create_ref_vector();
+  void replace_entity_ref(int entity);
 };

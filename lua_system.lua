@@ -10,6 +10,9 @@ function lua_system:update(dt, entity)
   print(dt+1);
   print("trying things")
   print(entity.Transform)
+  print("Vector", entity.Transform.pos)
+  entity.Transform.pos.x = 123
+  entity.Transform.rot.x = 444
   print(entity.lua_component.shape)
   print(entity)
   print("Hello world")

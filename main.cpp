@@ -31,11 +31,14 @@ int main()
 
   Test_System * sys = new Test_System();
   manager->add_system(sys);
+
+
   Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua_system.lua");
   manager->add_system(lua_sys);
 
   Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua_component.lua");
   manager->add_component(index, lua_comp);
+
 
   std::vector<std::string> components;
   components.push_back("lua_component");
@@ -43,6 +46,13 @@ int main()
   std::vector<int > entities = manager->get_entities(components);
   std::cout << entities.size() << " out out" << std::endl;
 
+  int ref = lua_man->to_lua_ref(Vec3f(1.11,4.44,3.33));
+  std::cout << "found ref:" << ref << std::endl;
+  lua_State *L = Lua_Manager::get_instance()->get_lua_state();
+  lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+  lua_getfield(L, -1, "z");
+  std::cout << "NEW!! Val for x::" << lua_tostring(L, -1) << std::endl;
   manager->update(1.1);
+  std::cout << "post update rotX::" << comp->rot.y << std::endl;
   return 0;
 }
