@@ -8,4 +8,5 @@ struct Transform : public Component
   Vec3f rot;
   Vec3f scale;
   virtual std::string name() { return "Transform"; };
+  virtual int get_lua_ref(lua_State * L);
 };
