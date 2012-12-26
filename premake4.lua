@@ -6,9 +6,10 @@ solution "moonstone"
     kind "ConsoleApp"
     language "C++"
     files {"*.cpp", "utils/*.cpp"}
-    includedirs {".", "/usr/include/lua5.2/"}
-
-    links{'lua5.2'}
+    includedirs {".", "/usr/include/lua5.2/", "/usr/local/include/OGRE", "/usr/include/OIS/"}
+    
+    links{'lua5.2', 'OgreMain', 'OIS'}
+    libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu"}
     buildoptions {"--std=c++11" } ---Wall -Wextra
     configuration "Debug"
       defines { "DEBUG" }
