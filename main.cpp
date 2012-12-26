@@ -3,10 +3,10 @@
 #include <cassert>
 #include "utils/Vec3f.hpp"
 #include "Manager.hpp"
-#include "Transform.hpp"
-#include "Test_System.hpp"
-#include "Lua_System.hpp"
-#include "Lua_Component.hpp"
+#include "components/Transform.hpp"
+#include "systems/Test_System.hpp"
+#include "systems/Lua_System.hpp"
+#include "components/Lua_Component.hpp"
 #include "Lua_Manager.hpp"
 #include "Ogre_Manager.hpp"
 
@@ -36,10 +36,10 @@ int main()
   manager->add_system(sys);
 
 
-  Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua_system.lua");
+  Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua/systems/lua_system.lua");
   manager->add_system(lua_sys);
 
-  Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua_component.lua");
+  Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua/components/lua_component.lua");
   manager->add_component(index, lua_comp);
 
 

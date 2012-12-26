@@ -5,8 +5,11 @@ solution "moonstone"
   project "main"
     kind "ConsoleApp"
     language "C++"
-    files {"*.cpp", "utils/*.cpp"}
-    includedirs {".", "/usr/include/lua5.2/", "/usr/local/include/OGRE", "/usr/include/OIS/"}
+    files {"**.cpp", "**.hpp"}
+    includedirs {".",
+      "/usr/include/lua5.2/",
+      "/usr/local/include/OGRE",
+      "/usr/include/OIS/"}
     
     links{'lua5.2', 'OgreMain', 'OIS'}
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu"}
