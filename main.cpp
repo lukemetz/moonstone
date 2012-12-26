@@ -8,6 +8,9 @@
 #include "Lua_System.hpp"
 #include "Lua_Component.hpp"
 #include "Lua_Manager.hpp"
+#include "Ogre_Manager.hpp"
+
+#include <OgreException.h>
 
 void report_errors(lua_State *L, int status)
 {
@@ -52,7 +55,14 @@ int main()
   lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
   lua_getfield(L, -1, "z");
   std::cout << "NEW!! Val for x::" << lua_tostring(L, -1) << std::endl;
-  manager->update(1.1);
-  std::cout << "post update rotX::" << comp->rot.y << std::endl;
+
+  //Start up the ogre loop
+  Ogre_Manager ogre_manager;
+
+  try {
+    ogre_manager.go();
+  } catch( Ogre::Exception & e)  {
+    std::cerr << "An exception has occured: " << e.getFullDescription().c_str() << std::endl;
+  }
   return 0;
 }
