@@ -21,6 +21,5 @@ void Ogre_Render_System::update(float dt)
     int entity = entities[0];
     Transform * transform = (Transform*)manager->get_component(entity, "Transform");
     ogre_manager->camera->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
-    std::cout << "Trying to like set position??" << std::endl;
   }
 }

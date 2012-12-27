@@ -1,5 +1,6 @@
 #include "Ogre_Manager.hpp"
 #include "Manager.hpp"
+#include <iostream>
 
 Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                camera(0),
@@ -16,24 +17,6 @@ Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                mouse(0),
                                keyboard(0),
                                manager(mgr)
-{
-}
-
-Ogre_Manager::~Ogre_Manager()
-{
-  if (tray_mgr)
-    delete tray_mgr;
-  if (camera_man)
-    delete camera_man;
-
-  Ogre::WindowEventUtilities::removeWindowEventListener(window, this);
-  //trigger callback
-  windowClosed(window);
-  delete root;
-}
-
-
-bool Ogre_Manager::go()
 {
   resources_cfg = "resources.cfg";
   plugins_cfg = "plugins.cfg";
@@ -60,16 +43,37 @@ bool Ogre_Manager::go()
     }
   }
 
-  //Configure
   //RestoreConfig gets config from ogre.cfg
   if (root->restoreConfig() || root->showConfigDialog()) {
     window = root->initialise(true, "moonstone_demo");
   } else {
-    return false;
+    std::cerr << "Hit cancel" << std::endl;
+    exit(1);
   }
 
+  Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+
+  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
   scene_mgr = root->createSceneManager(Ogre::ST_GENERIC);
 
+}
+
+Ogre_Manager::~Ogre_Manager()
+{
+  if (tray_mgr)
+    delete tray_mgr;
+  if (camera_man)
+    delete camera_man;
+
+  Ogre::WindowEventUtilities::removeWindowEventListener(window, this);
+  //trigger callback
+  windowClosed(window);
+  delete root;
+}
+
+
+bool Ogre_Manager::go()
+{
   camera = scene_mgr->createCamera("Default_Cam");
   camera->setPosition(Ogre::Vector3(0,0,80));
   camera->lookAt(Ogre::Vector3(0,0,-300));
@@ -82,14 +86,6 @@ bool Ogre_Manager::go()
   camera->setAspectRatio(
       Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 
-  Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-
-  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-  Ogre::Entity * ogreHead = scene_mgr->createEntity("Head", "ogrehead.mesh");
-
-  Ogre::SceneNode * headNode = scene_mgr->getRootSceneNode()->createChildSceneNode();
-  headNode->attachObject(ogreHead);
 
   scene_mgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
   Ogre::Light * l = scene_mgr->createLight("Main_Light");

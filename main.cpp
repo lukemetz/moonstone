@@ -11,6 +11,7 @@
 #include "Lua_Manager.hpp"
 #include "Ogre_Manager.hpp"
 #include "systems/Ogre_Render_System.hpp"
+#include "components/Mesh.hpp"
 
 #include <OgreException.h>
 
@@ -67,6 +68,16 @@ int main()
 
   Ogre_Render_System * render_system = new Ogre_Render_System(ogre_manager);
   manager->add_system(render_system);
+
+  //Create the ogre head
+  Mesh * mesh = new Mesh(ogre_manager, "ogrehead.mesh");
+  Transform * transform = new Transform();
+
+  int ogre = manager->createEntity();
+
+  manager->add_component(ogre, mesh);
+  manager->add_component(ogre, transform);
+
   try {
     ogre_manager->go();
   } catch( Ogre::Exception & e)  {
