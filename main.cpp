@@ -7,8 +7,10 @@
 #include "systems/Test_System.hpp"
 #include "systems/Lua_System.hpp"
 #include "components/Lua_Component.hpp"
+#include "components/Camera.hpp"
 #include "Lua_Manager.hpp"
 #include "Ogre_Manager.hpp"
+#include "systems/Ogre_Render_System.hpp"
 
 #include <OgreException.h>
 
@@ -28,15 +30,19 @@ int main()
 
   Transform *comp = new Transform();
   manager->add_component(index, comp);
+
+  Camera * camera = new Camera();
+  manager->add_component(index, camera);
+
   Vec3f t = Vec3f(1,2,3);
   comp->pos = t;
   comp->rot = Vec3f(1.2, 3.2, 3.3);
 
   Test_System * sys = new Test_System();
-  manager->add_system(sys);
-
+  //manager->add_system(sys);
 
   Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua/systems/lua_system.lua");
+  for(int i=0; i < 200; i++)
   manager->add_system(lua_sys);
 
   Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua/components/lua_component.lua");
@@ -57,10 +63,12 @@ int main()
   std::cout << "NEW!! Val for x::" << lua_tostring(L, -1) << std::endl;
 
   //Start up the ogre loop
-  Ogre_Manager ogre_manager;
+  Ogre_Manager * ogre_manager = new Ogre_Manager(manager);
 
+  Ogre_Render_System * render_system = new Ogre_Render_System(ogre_manager);
+  manager->add_system(render_system);
   try {
-    ogre_manager.go();
+    ogre_manager->go();
   } catch( Ogre::Exception & e)  {
     std::cerr << "An exception has occured: " << e.getFullDescription().c_str() << std::endl;
   }

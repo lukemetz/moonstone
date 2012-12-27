@@ -17,6 +17,8 @@
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
+class Manager;
+
 class Ogre_Manager : public Ogre::FrameListener,
                      public Ogre::WindowEventListener,
                      OgreBites::SdkTrayListener,
@@ -24,10 +26,11 @@ class Ogre_Manager : public Ogre::FrameListener,
                      public OIS::MouseListener
 {
 public:
-  Ogre_Manager();
+  Ogre_Manager(Manager *mgr);
   ~Ogre_Manager();
   bool go();
 
+  Manager * manager;
   Ogre::Root * root;
   Ogre::Camera * camera;
 

@@ -1,6 +1,7 @@
 #include "Ogre_Manager.hpp"
+#include "Manager.hpp"
 
-Ogre_Manager::Ogre_Manager() : root(0),
+Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                camera(0),
                                scene_mgr(0),
                                window(0),
@@ -13,7 +14,8 @@ Ogre_Manager::Ogre_Manager() : root(0),
                                shutdown(false),
                                input_manager(0),
                                mouse(0),
-                               keyboard(0)
+                               keyboard(0),
+                               manager(mgr)
 {
 }
 
@@ -179,7 +181,8 @@ bool Ogre_Manager::frameRenderingQueued(const Ogre::FrameEvent& evt)
           details_panel->setParamValue(7, Ogre::StringConverter::toString(camera->getDerivedOrientation().z));
       }
   }
-
+  //Update the manager
+  manager->update(evt.timeSinceLastFrame);
   return true;
 }
 //-------------------------------------------------------------------------------------
