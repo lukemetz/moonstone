@@ -60,7 +60,6 @@ void Lua_System::create_ref_vector()
     lua_settop(L, 0);
     lua_newtable(L);
     for(std::string component_name : components) {
-      std::cout << "entity #" << entity << "With comp:" << component_name << std::endl;
       Component * component = manager->get_component(entity, component_name);
       int ref = component->get_lua_ref(L);
       lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
@@ -68,7 +67,6 @@ void Lua_System::create_ref_vector()
     }
     int table_ref = luaL_ref(L, LUA_REGISTRYINDEX);
     entity_ref_vector[entity] = table_ref;
-    std::cout << "Setting: " << table_ref << std::endl;
   }
   lua_settop(L, 0);
 }
@@ -78,7 +76,6 @@ void Lua_System::replace_entity_ref(int entity)
   lua_rawgeti(L, LUA_REGISTRYINDEX, entity_ref_vector[entity]);
 
   for(std::string component_name : components) {
-    std::cout << "entity #" << entity << "With comp:" << component_name << std::endl;
     Component * component = manager->get_component(entity, component_name);
     lua_getfield(L, -1, component_name.c_str());
     component->update_from_lua(L);
@@ -103,6 +100,7 @@ void Lua_System::update(float dt)
     report_errors(s);
 
     //Re-populate components
+
     replace_entity_ref(entity);
     lua_pop(L,1);
   }

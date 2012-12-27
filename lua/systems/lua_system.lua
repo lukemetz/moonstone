@@ -7,11 +7,8 @@ function lua_system:init()
 end
 
 function lua_system:update(dt, entity)
-  entity.Transform.pos.x = entity.Transform.pos.x - dt*.1 
+  entity.Transform.pos.x = entity.Transform.pos.x - dt*.1
   entity.Transform.rot.x = 444
-  print(entity.Transform.pos.x)
 end
-
---x = 1
 
 return lua_system
