@@ -3,6 +3,9 @@
 *.lo
 *.o
 
+*.out
+*.gprof
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -11,3 +14,11 @@
 *.lai
 *.la
 *.a
+
+obj
+test
+main
+Ogre.log
+
+*.make
+Makefile
