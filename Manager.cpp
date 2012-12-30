@@ -17,6 +17,17 @@ void Manager::add_component(int entity, Component *component)
   entity_lookup[entity][component->name()] = component;
 }
 
+Component * Manager::create_component(std::string name)
+{
+  auto iter = string_component_lookup.find(name);
+  if (iter != string_component_lookup.end()) {
+    return string_component_lookup[name]();
+  } else {
+    //Look in the lua directory and make from there.
+    return string_component_lookup["Lua_Component"]();
+  }
+}
+
 std::vector<int> Manager::get_entities(std::string name)
 {
   std::multimap<std::string, int>::iterator iter;
