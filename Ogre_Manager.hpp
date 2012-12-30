@@ -18,6 +18,7 @@
 #include <SdkCameraMan.h>
 
 class Manager;
+class Ogre_Manager;
 
 class Ogre_Manager : public Ogre::FrameListener,
                      public Ogre::WindowEventListener,
@@ -70,6 +71,8 @@ public:
   virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
   virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+  static Ogre_Manager* get_instance();
+  static Ogre_Manager* instance;
 protected:
   void setup_framelistener();
 };

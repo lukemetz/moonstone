@@ -2,6 +2,8 @@
 #include "Manager.hpp"
 #include <iostream>
 
+Ogre_Manager * Ogre_Manager::instance = nullptr;
+
 Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                camera(0),
                                scene_mgr(0),
@@ -18,6 +20,7 @@ Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                keyboard(0),
                                manager(mgr)
 {
+  instance = this;
 }
 
 void Ogre_Manager::init()
@@ -336,5 +339,7 @@ void Ogre_Manager::windowClosed(Ogre::RenderWindow* rw)
   }
 }
 
-
-
+Ogre_Manager* Ogre_Manager::get_instance()
+{
+  return instance;
+}
