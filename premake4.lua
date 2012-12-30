@@ -14,7 +14,7 @@ solution "moonstone"
     excludes {"tests/**"}
     links{'lua5.2', 'OgreMain', 'OIS'}
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu"}
-    buildoptions {"--std=c++11" } ---Wall -Wextra
+    buildoptions {"--std=c++11 -g"}
     configuration "Debug"
       defines { "DEBUG" }
       flags { "Symbols" }
@@ -34,5 +34,5 @@ solution "moonstone"
     excludes {"main.cpp"}
     links{'lua5.2', 'OgreMain', 'OIS', 'gtest_main', 'gtest', 'pthread' }
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu"}
-    buildoptions {"--std=c++11" } ---Wall -Wextra
+    buildoptions {"--std=c++11 -g"}
 
