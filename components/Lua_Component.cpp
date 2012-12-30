@@ -1,10 +1,17 @@
 #include "Lua_Component.hpp"
 #include "utils/string.hpp"
+#include "Lua_Manager.hpp"
 #include <iostream>
 
-Lua_Component::Lua_Component(lua_State *lua_state, std::string filename)
+Lua_Component::Lua_Component()
 {
-  L = lua_state;
+  component_ref = LUA_REFNIL;
+  component_name = "Lua_Undefined";
+}
+
+void Lua_Component::set_file(std::string filename)
+{
+  L = Lua_Manager::get_instance()->get_lua_state();
 
   int s = luaL_dofile(L, filename.c_str());
   report_errors(s);

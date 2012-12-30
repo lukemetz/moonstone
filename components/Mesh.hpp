@@ -7,8 +7,8 @@
 
 struct Mesh : public Component
 {
-  Mesh(Ogre_Manager * ogre_manager, std::string filename);
-
+  Mesh();
+  void set_file(std::string filename);
   virtual std::string name() { return "Mesh"; };
   virtual int get_lua_ref(lua_State * L);
   virtual void update_from_lua(lua_State * L);
@@ -16,4 +16,5 @@ struct Mesh : public Component
   Ogre::Entity * entity;
   Ogre::SceneNode * scene_node;
 
+  virtual void init_from_lua(lua_State * L);
 };
