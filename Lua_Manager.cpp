@@ -1,7 +1,7 @@
 #include "Lua_Manager.hpp"
 #include <iostream>
 
-Lua_Manager * Lua_Manager::instance = 0;
+Lua_Manager * Lua_Manager::instance = nullptr;
 
 Lua_Manager::Lua_Manager()
 {
