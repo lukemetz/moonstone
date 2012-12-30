@@ -28,7 +28,9 @@ class Ogre_Manager : public Ogre::FrameListener,
 public:
   Ogre_Manager(Manager *mgr);
   ~Ogre_Manager();
+  void init();
   bool go();
+
 
   Manager * manager;
   Ogre::Root * root;

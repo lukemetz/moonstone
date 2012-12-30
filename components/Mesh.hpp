@@ -13,7 +13,6 @@ struct Mesh : public Component
   virtual int get_lua_ref(lua_State * L);
   virtual void update_from_lua(lua_State * L);
 
-protected:
   Ogre::Entity * entity;
   Ogre::SceneNode * scene_node;
 

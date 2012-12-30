@@ -2,9 +2,15 @@
 
 Mesh::Mesh(Ogre_Manager * ogre_manager, std::string filename)
 {
-  entity = ogre_manager->scene_mgr->createEntity("sometestname", filename);
-  scene_node = ogre_manager->scene_mgr->getRootSceneNode()->createChildSceneNode();
-  scene_node->attachObject(entity);
+  entity = nullptr;
+  scene_node = nullptr;
+  try {
+    entity = ogre_manager->scene_mgr->createEntity(filename);
+    scene_node = ogre_manager->scene_mgr->getRootSceneNode()->createChildSceneNode();
+    scene_node->attachObject(entity);
+  } catch(Ogre::Exception &evt) {
+    std::cerr << "Mesh Component: " <<  evt.what() << std::endl;
+  }
 }
 
 int Mesh::get_lua_ref(lua_State * L)

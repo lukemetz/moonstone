@@ -18,6 +18,10 @@ Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                keyboard(0),
                                manager(mgr)
 {
+}
+
+void Ogre_Manager::init()
+{
   resources_cfg = "resources.cfg";
   plugins_cfg = "plugins.cfg";
 

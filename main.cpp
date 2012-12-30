@@ -30,24 +30,19 @@ int main()
   int index = manager->createEntity();
 
   Transform *comp = new Transform();
-  manager->add_component(index, comp);
+  //manager->add_component(index, comp);
 
   Camera * camera = new Camera();
   manager->add_component(index, camera);
-
-  Vec3f t = Vec3f(1,2,3);
-  comp->pos = t;
-  comp->rot = Vec3f(1.2, 3.2, 3.3);
 
   Test_System * sys = new Test_System();
   //manager->add_system(sys);
 
   Lua_System * lua_sys = new Lua_System(lua_man->get_lua_state(), "lua/systems/lua_system.lua");
-  for(int i=0; i < 200; i++)
+  //for(int i=0; i < 200; i++)
   manager->add_system(lua_sys);
 
   Lua_Component * lua_comp = new Lua_Component(lua_man->get_lua_state(), "lua/components/lua_component.lua");
-  manager->add_component(index, lua_comp);
 
 
   std::vector<std::string> components;
@@ -56,15 +51,9 @@ int main()
   std::vector<int > entities = manager->get_entities(components);
   std::cout << entities.size() << " out out" << std::endl;
 
-  int ref = lua_man->to_lua_ref(Vec3f(1.11,4.44,3.33));
-  std::cout << "found ref:" << ref << std::endl;
-  lua_State *L = Lua_Manager::get_instance()->get_lua_state();
-  lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-  lua_getfield(L, -1, "z");
-  std::cout << "NEW!! Val for x::" << lua_tostring(L, -1) << std::endl;
-
   //Start up the ogre loop
   Ogre_Manager * ogre_manager = new Ogre_Manager(manager);
+  ogre_manager->init();
 
   Ogre_Render_System * render_system = new Ogre_Render_System(ogre_manager);
   manager->add_system(render_system);
@@ -75,6 +64,7 @@ int main()
 
   int ogre = manager->createEntity();
 
+  manager->add_component(ogre, lua_comp);
   manager->add_component(ogre, mesh);
   manager->add_component(ogre, transform);
 

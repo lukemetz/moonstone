@@ -15,6 +15,8 @@ struct Lua_System : public System
   void update(float dt);
   lua_State * get_lua_state();
 
+  int create_entity_ref(int entity);
+  void replace_entity_ref(int entity);
 
 private:
   lua_State *L;
@@ -22,8 +24,7 @@ private:
   std::string script_name;
   std::vector<std::string> components;
   std::map<int, int> entity_ref_vector;
+  void create_ref_vector();
 
   void report_errors(int status);
-  void create_ref_vector();
-  void replace_entity_ref(int entity);
 };
