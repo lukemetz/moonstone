@@ -31,8 +31,6 @@ void Lua_System::set_file(std::string filename)
 
   lua_pushnil(L);
   while(lua_next(L, -2)) {
-    lua_pushvalue(L, -2);
-    lua_pop(L, 1);
     const char * v = lua_tostring(L, -1);
     std::string component_name(v);
     components.push_back(component_name);
@@ -92,7 +90,7 @@ void Lua_System::update(float dt)
     lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
 
     lua_getfield(L, -1, "update");
-    lua_pushvalue(L, -2); //push setlf
+    lua_pushvalue(L, -2); //push self
     lua_pushnumber(L, dt);
     //push the entity
     lua_rawgeti(L, LUA_REGISTRYINDEX, entity_ref_vector[entity]);
