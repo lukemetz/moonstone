@@ -3,9 +3,10 @@
 
 int Input::get_lua_ref(lua_State * L)
 {
-  lua_newtable(L);
-
+  lua_pushglobaltable(L);
+  lua_getfield(L, -1, "__input");
   int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+  lua_pop(L, 1);
   return ref;
 }
 
