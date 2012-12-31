@@ -15,8 +15,9 @@ public:
 
   static Lua_Manager * get_instance();
   static Lua_Manager * instance;
+
+  void report_errors(int status);
 private:
   lua_State *L;
-  void report_errors(int status);
 };
 
