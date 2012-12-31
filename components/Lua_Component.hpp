@@ -16,5 +16,4 @@ private:
   std::string component_name;
   int component_ref;
   lua_State * L;
-  void report_errors(int status);
 };
