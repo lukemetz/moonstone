@@ -1,5 +1,8 @@
 #include "Manager.hpp"
 #include <algorithm>
+#include <iostream>
+#include "systems/Lua_System.hpp"
+#include "components/Lua_Component.hpp"
 
 Manager::Manager()
 {
@@ -24,7 +27,25 @@ Component * Manager::create_component(std::string name)
     return string_component_lookup[name]();
   } else {
     //Look in the lua directory and make from there.
-    return string_component_lookup["Lua_Component"]();
+    Lua_Component * c = (Lua_Component *)string_component_lookup["Lua_Component"]();
+    std::string filename = std::string("lua/components/").append(name).append(".lua");
+    std::cout << "Component from: " << filename << std::endl;
+    c->set_file(filename);
+    return c;
+  }
+}
+
+System* Manager::create_system(std::string name)
+{
+  auto iter = string_system_lookup.find(name);
+  if (iter != string_system_lookup.end()) {
+    return string_system_lookup[name]();
+  } else {
+    //Look in the lua directory and make from there.
+    Lua_System * s = (Lua_System *) string_system_lookup["Lua_System"]();
+
+    s->set_file(std::string("lua/systems/").append(name).append(".lua"));
+    return s;
   }
 }
 
@@ -41,11 +62,19 @@ std::vector<int> Manager::get_entities(std::string name)
 
 std::vector<int> Manager::get_entities(std::vector<std::string> components)
 {
+  std::vector<int> empty;
+  if (components.size() == 0) {
+    return empty;
+  }
+
+  //start with first component
   std::vector<int> sum = get_entities(static_cast<std::string>(components[0]));
   std::vector<std::string>::iterator iter;
+  //keep subtracting away
   for (iter = components.begin()+1; iter != components.end(); ++iter) {
     std::vector<int> output;
     std::vector<int> sub = get_entities(static_cast<std::string>(*iter));
+
     std::set_intersection(sum.begin(), sum.end(),
                           sub.begin(), sub.end(),
                           std::back_inserter(output));
