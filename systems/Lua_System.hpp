@@ -9,7 +9,8 @@
 
 struct Lua_System : public System
 {
-  Lua_System(lua_State * lua_state, std::string filename);
+  Lua_System();
+  void set_file(std::string filename);
   ~Lua_System();
   void init();
   void update(float dt);

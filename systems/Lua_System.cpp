@@ -1,10 +1,20 @@
 #include "Lua_System.hpp"
 #include <iostream>
 #include "Manager.hpp"
+#include "Lua_Manager.hpp"
 
-Lua_System::Lua_System(lua_State * lua_state, std::string filename)
+Lua_System::Lua_System()
 {
-  L = lua_state;
+  L = Lua_Manager::get_instance()->get_lua_state();
+}
+
+Lua_System::~Lua_System()
+{
+  lua_close(L);
+}
+
+void Lua_System::set_file(std::string filename)
+{
   lua_settop(L, 0);
   int s = luaL_dofile(L, filename.c_str());
   report_errors(s);
@@ -30,11 +40,6 @@ Lua_System::Lua_System(lua_State * lua_state, std::string filename)
   }
   lua_pop(L,1);
 
-}
-
-Lua_System::~Lua_System()
-{
-  lua_close(L);
 }
 
 lua_State * Lua_System::get_lua_state()
