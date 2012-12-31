@@ -26,6 +26,4 @@ private:
   std::vector<std::string> components;
   std::map<int, int> entity_ref_vector;
   void create_ref_vector();
-
-  void report_errors(int status);
 };

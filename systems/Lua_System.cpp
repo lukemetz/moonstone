@@ -17,7 +17,7 @@ void Lua_System::set_file(std::string filename)
 {
   lua_settop(L, 0);
   int s = luaL_dofile(L, filename.c_str());
-  report_errors(s);
+  Lua_Manager::get_instance()->report_errors(s);
 
   script_ref = luaL_ref(L, LUA_REGISTRYINDEX);
   lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
@@ -25,7 +25,7 @@ void Lua_System::set_file(std::string filename)
   lua_getfield(L, -1, "init");
   lua_pushvalue(L, -2); //push setlf
   s = lua_pcall(L, 1, 1, 0);
-  report_errors(s);
+  Lua_Manager::get_instance()->report_errors(s);
 
   int n = lua_rawlen(L, -1);
 
@@ -48,14 +48,6 @@ lua_State * Lua_System::get_lua_state()
 }
 void Lua_System::init()
 {
-}
-
-void Lua_System::report_errors(int status)
-{
-  if (status != 0 ) {
-    std::cerr << "ERROR-- " << lua_tostring(L, -1) << std::endl;
-    lua_pop(L, 1);
-  }
 }
 
 void Lua_System::create_ref_vector()
@@ -106,7 +98,7 @@ void Lua_System::update(float dt)
     lua_rawgeti(L, LUA_REGISTRYINDEX, entity_ref_vector[entity]);
 
     int s = lua_pcall(L, 3, 0, 0);
-    report_errors(s);
+    Lua_Manager::get_instance()->report_errors(s);
 
     //Re-populate components
 
