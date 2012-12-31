@@ -5,12 +5,6 @@
 
 void Ogre_Render_System::init()
 {
-  std::vector<int> entities = manager->get_entities("Camera");
-  if (entities.size() != 1) {
-    std::cerr << "Wrong number of cameras" << std::endl;
-    exit(1);
-  }
-
   ogre_manager = Ogre_Manager::get_instance();
 
 }

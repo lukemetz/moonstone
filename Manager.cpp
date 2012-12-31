@@ -92,6 +92,7 @@ void Manager::add_system(System *system)
 {
   systems.push_back(system);
   system->set_manager(this);
+  system->init();
 }
 
 void Manager::update(float dt)
