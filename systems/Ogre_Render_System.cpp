@@ -11,6 +11,8 @@ void Ogre_Render_System::init()
     exit(1);
   }
 
+  ogre_manager = Ogre_Manager::get_instance();
+
 }
 
 void Ogre_Render_System::update(float dt)
