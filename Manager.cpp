@@ -43,8 +43,9 @@ System* Manager::create_system(std::string name)
   } else {
     //Look in the lua directory and make from there.
     Lua_System * s = (Lua_System *) string_system_lookup["Lua_System"]();
-
-    s->set_file(std::string("lua/systems/").append(name).append(".lua"));
+    std::string filename = std::string("lua/systems/").append(name).append(".lua");
+    std::cout << "Component from: " << filename << std::endl;
+    s->set_file(filename);
     return s;
   }
 }

@@ -14,7 +14,7 @@ void setup_systems(lua_State * L, Manager * manager)
   lua_pushnil(L);
   while(lua_next(L, -2)) {
     std::string name = lua_tostring(L, -1);
-    std::cout << "LUA OUTPUT:::" << name << std::endl;
+    std::cout << "Found system:" << name << std::endl;
     System * s = manager->create_system(name);
     manager->add_system(s);
     lua_pop(L, 1);
