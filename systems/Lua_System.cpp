@@ -15,6 +15,7 @@ Lua_System::~Lua_System()
 
 void Lua_System::set_file(std::string filename)
 {
+  printf("Initing system with file: %s \n", filename.c_str());
   lua_settop(L, 0);
   int s = luaL_dofile(L, filename.c_str());
   Lua_Manager::get_instance()->report_errors(s);
@@ -30,16 +31,15 @@ void Lua_System::set_file(std::string filename)
   int n = lua_rawlen(L, -1);
 
   lua_pushnil(L);
-  for (int i=0; i < n; i++) {
-    lua_next(L, -2*i);
+  while(lua_next(L, -2)) {
+    lua_pushvalue(L, -2);
+    lua_pop(L, 1);
     const char * v = lua_tostring(L, -1);
-
     std::string component_name(v);
     components.push_back(component_name);
     lua_pop(L, 1);
   }
   lua_pop(L,1);
-
 }
 
 lua_State * Lua_System::get_lua_state()
@@ -80,6 +80,7 @@ void Lua_System::replace_entity_ref(int entity)
     Component * component = manager->get_component(entity, component_name);
     lua_getfield(L, -1, component_name.c_str());
     component->update_from_lua(L);
+    lua_pop(L, 1);
   }
 }
 
