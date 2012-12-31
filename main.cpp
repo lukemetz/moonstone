@@ -15,6 +15,7 @@
 #include "register_components.hpp"
 #include "register_systems.hpp"
 #include "init_from_lua.hpp"
+#include "OIS_Input_Manager.hpp"
 
 #include <OgreException.h>
 
@@ -33,6 +34,8 @@ int main()
   register_systems(manager);
   Lua_Manager *lua_man = new Lua_Manager();
   Ogre_Manager * ogre_manager = new Ogre_Manager(manager);
+  OIS_Input_Manager * input_manager = new OIS_Input_Manager();
+  ogre_manager->set_ois_input_manager(input_manager);
   ogre_manager->init();
 
   init_from_lua(manager, "lua/main.lua");

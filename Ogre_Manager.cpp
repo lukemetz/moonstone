@@ -1,5 +1,6 @@
 #include "Ogre_Manager.hpp"
 #include "Manager.hpp"
+#include "OIS_Input_Manager.hpp"
 #include <iostream>
 
 Ogre_Manager * Ogre_Manager::instance = nullptr;
@@ -15,12 +16,15 @@ Ogre_Manager::Ogre_Manager(Manager * mgr) : root(0),
                                details_panel(0),
                                cursor_was_visible(false),
                                shutdown(false),
-                               input_manager(0),
-                               mouse(0),
-                               keyboard(0),
                                manager(mgr)
 {
   instance = this;
+}
+
+void Ogre_Manager::set_ois_input_manager(OIS_Input_Manager * ois_input_manager)
+{
+  input_manager = ois_input_manager;
+  input_manager->ogre_manager = this;
 }
 
 void Ogre_Manager::init()
@@ -98,41 +102,20 @@ bool Ogre_Manager::go()
   Ogre::Light * l = scene_mgr->createLight("Main_Light");
   l->setPosition(20, 80, 50);
 
-  /*
-   * Started cfut and paste"
-   */
 
-  Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
-  OIS::ParamList pl;
   size_t windowHnd = 0;
   std::ostringstream windowHndStr;
 
   window->getCustomAttribute("WINDOW", &windowHnd);
   windowHndStr << windowHnd;
-  pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
-
-#if defined OIS_LINUX_PLATFORM
-  pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-  pl.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
-  pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
-  pl.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
-#endif
-
-  input_manager = OIS::InputManager::createInputSystem( pl );
-
-  keyboard = static_cast<OIS::Keyboard*>(input_manager->createInputObject( OIS::OISKeyboard, true ));
-  mouse = static_cast<OIS::Mouse*>(input_manager->createInputObject( OIS::OISMouse, true ));
-
-  mouse->setEventCallback(this);
-  keyboard->setEventCallback(this);
-
+  input_manager->bind_to_window(windowHndStr.str());
   //Set initial mouse clipping size
   windowResized(window);
 
   //Register as a Window listener
   Ogre::WindowEventUtilities::addWindowEventListener(window, this);
 
-  tray_mgr = new OgreBites::SdkTrayManager("InterfaceName", window, mouse, this);
+  tray_mgr = new OgreBites::SdkTrayManager("InterfaceName", window, input_manager->mouse, this);
   tray_mgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
   tray_mgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
   tray_mgr->hideCursor();
@@ -171,9 +154,7 @@ bool Ogre_Manager::frameRenderingQueued(const Ogre::FrameEvent& evt)
   if(shutdown)
       return false;
 
-  //Need to capture/update each device
-  keyboard->capture();
-  mouse->capture();
+  input_manager->capture();
 
   tray_mgr->frameRenderingQueued(evt);
 
@@ -196,6 +177,35 @@ bool Ogre_Manager::frameRenderingQueued(const Ogre::FrameEvent& evt)
   return true;
 }
 //-------------------------------------------------------------------------------------
+
+//Adjust mouse clipping area
+void Ogre_Manager::windowResized(Ogre::RenderWindow* rw)
+{
+  unsigned int width, height, depth;
+  int left, top;
+  rw->getMetrics(width, height, depth, left, top);
+  input_manager->update_clipping_area(width, height);
+}
+
+
+//Unattach OIS before window shutdown (very important under Linux)
+void Ogre_Manager::windowClosed(Ogre::RenderWindow* rw)
+{
+  //Only close for window that created OIS (the main window in these demos)
+  if( rw == window )
+  {
+      if( input_manager )
+      {
+          input_manager->destroy_input_manager();
+      }
+  }
+}
+
+Ogre_Manager* Ogre_Manager::get_instance()
+{
+  return instance;
+}
+
 bool Ogre_Manager::keyPressed( const OIS::KeyEvent &arg )
 {
   if (tray_mgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
@@ -315,38 +325,4 @@ bool Ogre_Manager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
   if (tray_mgr->injectMouseUp(arg, id)) return true;
   camera_man->injectMouseUp(arg, id);
   return true;
-}
-
-//Adjust mouse clipping area
-void Ogre_Manager::windowResized(Ogre::RenderWindow* rw)
-{
-  unsigned int width, height, depth;
-  int left, top;
-  rw->getMetrics(width, height, depth, left, top);
-
-  const OIS::MouseState &ms = mouse->getMouseState();
-  ms.width = width;
-  ms.height = height;
-}
-
-//Unattach OIS before window shutdown (very important under Linux)
-void Ogre_Manager::windowClosed(Ogre::RenderWindow* rw)
-{
-  //Only close for window that created OIS (the main window in these demos)
-  if( rw == window )
-  {
-      if( input_manager )
-      {
-          input_manager->destroyInputObject( mouse );
-          input_manager->destroyInputObject( keyboard );
-
-          OIS::InputManager::destroyInputSystem(input_manager);
-          input_manager = 0;
-      }
-  }
-}
-
-Ogre_Manager* Ogre_Manager::get_instance()
-{
-  return instance;
 }
