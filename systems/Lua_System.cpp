@@ -16,7 +16,6 @@ Lua_System::~Lua_System()
 void Lua_System::set_file(std::string filename)
 {
   printf("Initing system with file: %s \n", filename.c_str());
-  lua_settop(L, 0);
   int s = luaL_dofile(L, filename.c_str());
   Lua_Manager::get_instance()->report_errors(s);
 
@@ -24,7 +23,7 @@ void Lua_System::set_file(std::string filename)
   lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
 
   lua_getfield(L, -1, "init");
-  lua_pushvalue(L, -2); //push setlf
+  lua_pushvalue(L, -2); //push self value
   s = lua_pcall(L, 1, 1, 0);
   Lua_Manager::get_instance()->report_errors(s);
 
@@ -39,7 +38,7 @@ void Lua_System::set_file(std::string filename)
     components.push_back(component_name);
     lua_pop(L, 1);
   }
-  lua_pop(L,1);
+  lua_pop(L, 2);
 }
 
 lua_State * Lua_System::get_lua_state()
