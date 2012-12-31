@@ -1,8 +1,11 @@
 #include "OIS_Input_Manager.hpp"
 #include "Ogre_Manager.hpp"
 
+OIS_Input_Manager * OIS_Input_Manager::instance = nullptr;
+
 OIS_Input_Manager::OIS_Input_Manager()
 {
+  instance = this;
 }
 
 bool OIS_Input_Manager::keyPressed( const OIS::KeyEvent &arg )
@@ -70,4 +73,25 @@ void OIS_Input_Manager::capture()
 {
   keyboard->capture();
   mouse->capture();
+}
+
+void OIS_Input_Manager::populate_inputs(bool * keys,
+                                        bool * mouse_buttons,
+                                        int * mouse_x, int * mouse_y)
+{
+  for(int i=0; i < 222; i++) {
+    keys[i] = keyboard->isKeyDown((OIS::KeyCode)i);
+  }
+  const OIS::MouseState & ms = mouse->getMouseState();
+  for(int i=0; i < 8; i++) {
+    mouse_buttons[i] = ms.buttonDown((OIS::MouseButtonID)i);
+  }
+
+  *mouse_x = ms.X.rel;
+  *mouse_y = ms.Y.rel;
+}
+
+OIS_Input_Manager * OIS_Input_Manager::get_instance()
+{
+  return instance;
 }
