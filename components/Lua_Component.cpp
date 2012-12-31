@@ -16,7 +16,6 @@ void Lua_Component::set_file(std::string filename)
   int s = luaL_dofile(L, filename.c_str());
   report_errors(s);
   component_ref = luaL_ref(L, LUA_REGISTRYINDEX);
-  lua_pop(L, 1);
 
   std::vector<std::string> strings = split(filename, '/');
   component_name = split(strings.back(), '.')[0];
