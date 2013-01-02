@@ -14,7 +14,7 @@ void Ogre_Render_System::update(float dt)
   std::vector<int> entities = manager->get_entities("Camera");
   if (entities.size() != 1) {
     std::cerr << "Wrong number of cameras" << std::endl;
-
+    exit(1);
   } else {
     int entity = entities[0];
     Transform * transform = (Transform*)manager->get_component(entity, "Transform");
