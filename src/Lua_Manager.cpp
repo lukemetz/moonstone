@@ -26,10 +26,7 @@ void Lua_Manager::report_errors(int status)
   if (status != 0 ) {
     std::cerr << "Lua Error #" << status << ":" << lua_tostring(L, -1) << std::endl;
     lua_pop(L, 1);
-    if (status == 1) {
-      std::cout << "No c++ or lua file found" << std::endl;
-      exit(1);
-    }
+    exit(1);
   }
 }
 
