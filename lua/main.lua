@@ -1,5 +1,21 @@
 systems = { "lua_system","Ogre_Render_System", "OIS_Input_System"}
 
+
+entities = {}
+function add_entity(entity)
+  assert(type(entity) == "table", "entity must be a table")
+  table.insert(entities, entity)
+  return #entities - 1
+end
+
+function add_entities(entity_array)
+  local rets = {}
+  for _,entity in ipairs(entity_array) do
+    table.insert(rets, add_entity(entity))
+  end
+  return rets
+end
+
 function create_camera()
   return {
     Camera = { }
@@ -23,11 +39,10 @@ function create_ogre2()
     }
 end
 
-entities = {
-  create_camera(),
-  create_ogre(),
-  create_ogre2()
-}
+val1, val2 = add_entities{
+  create_camera(), create_ogre(), create_ogre2()}
+print (val1, val2)
 
-print("returning")
+local val2 = add_entity(create_ogre())
+local val2 = add_entity(create_ogre2())
 
