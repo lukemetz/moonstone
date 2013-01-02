@@ -17,4 +17,6 @@ struct Mesh : public Component
   Ogre::SceneNode * scene_node;
 
   virtual void init_from_lua(lua_State * L);
+
+  std::vector<std::string> names;
 };

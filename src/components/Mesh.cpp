@@ -19,11 +19,42 @@ void Mesh::set_file(std::string filename)
   } catch(Ogre::Exception &evt) {
     std::cerr << "Mesh Component: " <<  evt.what() << std::endl;
   }
+
+  names.clear();
+
+  //setup with empty strings
+  int n = entity->getNumSubEntities();
+  for(int i=0; i < n; ++i) {
+    names.push_back("");
+  }
+
+  auto map = entity->getMesh()->getSubMeshNameMap();
+  for(auto iter = map.begin(); iter != map.end(); ++iter) {
+    Ogre::String key = iter->first;
+    int value = iter->second;
+    names[value] = key;
+  }
 }
 
 int Mesh::get_lua_ref(lua_State * L)
 {
   lua_newtable(L);
+
+  int n = entity->getNumSubEntities();
+  for(int i=0; i < n; ++i) {
+    Ogre::SubEntity * s = entity->getSubEntity(i);
+    lua_newtable(L);
+      lua_pushstring(L, s->getMaterialName().c_str());
+      lua_setfield(L, -2, "material");
+      lua_pushstring(L, names[i].c_str());
+      lua_setfield(L, -2, "name");
+    if (names[i] != "") {
+      lua_pushvalue(L, -2);
+      lua_setfield(L, -3, names[i].c_str());
+    }
+    lua_rawseti(L, -2, i);
+  }
+
   return luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
