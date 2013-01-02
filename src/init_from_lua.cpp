@@ -27,7 +27,7 @@ void setup_components(lua_State * L, Manager * manager)
   lua_pushglobaltable(L);
   lua_getfield(L, -1, "entities");
   std::cout << "istable?" << lua_istable(L, -1) << std::endl;
-  std::cout << "got_sys" << std::endl;
+  std::cout << "got_entity" << std::endl;
 
   int n = lua_rawlen(L, -1);
   lua_pushnil(L);
