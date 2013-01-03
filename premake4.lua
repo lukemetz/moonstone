@@ -8,12 +8,15 @@ solution "moonstone"
     includedirs {"src/",
       "/usr/include/lua5.2/",
       "/usr/local/include/OGRE",
-      "/usr/include/OIS/"}
+      "/usr/include/OIS/",
+      "/usr/include/bullet"}
     
-    files {"**.cpp", "**.hpp"}
+    files {"**.cpp", "**.hpp", "**.h", "**.a"}
     excludes {"tests/**"}
-    links{'lua5.2', 'OgreMain', 'OIS'}
-    libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu"}
+    links{'lua5.2', 'OgreMain', 'OIS', 
+          'BulletCollision', 'BulletDynamics', 'LinearMath'}
+    libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu",
+            "src/externals/btogre"}
     buildoptions {"--std=c++11 -g"}
     configuration "Debug"
       defines { "DEBUG" }
