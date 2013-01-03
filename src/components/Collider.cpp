@@ -26,14 +26,14 @@ void Collider::init_from_lua(lua_State * L)
   if (type == "sphere") {
     lua_getfield(L, -1, "radius");
     float radius = lua_tonumber(L, -1);
-    set_sphere_shape(radius);
     lua_pop(L, 1);
+
+    set_sphere_shape(radius);
   } else if(type == "box") {
     Vec3f width;
     lua_getfield(L, -1, "side");
     Lua_Manager::get_instance()->from_lua(width);
     set_box_shape(width/2);
-    lua_pop(L, 1);
   }
 }
 
