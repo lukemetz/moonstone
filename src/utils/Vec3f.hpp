@@ -15,4 +15,9 @@ public:
     this->y = y;
     this->z = z;
   }
+
+  Vec3f operator/ (int b)
+  {
+    return Vec3f(this->x/b, this->y/b, this->z/b);
+  }
 };

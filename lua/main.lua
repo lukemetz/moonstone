@@ -1,4 +1,4 @@
-systems = { "lua_system","Ogre_Render_System", "OIS_Input_System"}
+systems = { "lua_system", "Ogre_Render_System", "OIS_Input_System"}
 
 
 entities = {}
@@ -27,7 +27,9 @@ function create_ogre()
     Mesh = {filename = "ogrehead.mesh"},
     Transform = { pos = Vec3f(0,0,0), rot = Vec3f(0,0,0), scale = Vec3f(1,1,1) },
     lua_component = {},
-    Input = {}
+    Input = {},
+    Collider = {type = "sphere", radius=3},
+    Rigid_Body = 
     }
 end
 

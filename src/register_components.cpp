@@ -7,6 +7,8 @@
 #include "components/Camera.hpp"
 #include "components/Input.hpp"
 
+#include "components/Collider.hpp"
+
 void register_components(Manager * manager)
 {
   manager->register_component<Transform>("Transform");
@@ -14,4 +16,5 @@ void register_components(Manager * manager)
   manager->register_component<Camera>("Camera");
   manager->register_component<Lua_Component>("Lua_Component");
   manager->register_component<Input>("Input");
+  manager->register_component<Collider>("Collider");
 }
