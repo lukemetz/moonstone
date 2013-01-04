@@ -87,7 +87,6 @@ std::vector<int> Manager::get_entities(std::vector<std::string> components)
 
 Component * Manager::get_component(int entity, std::string component_name)
 {
-  std::cout << entity << "# and component:" << component_name << std::endl;
   auto iter = entity_lookup[entity].find(component_name);
   if ( iter == entity_lookup[entity].end() ) {
     return nullptr;
