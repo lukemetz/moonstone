@@ -99,8 +99,6 @@ bool Ogre_Manager::go()
 
 
   scene_mgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-  Ogre::Light * l = scene_mgr->createLight("Main_Light");
-  l->setPosition(20, 80, 50);
 
 
   size_t windowHnd = 0;

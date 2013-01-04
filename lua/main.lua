@@ -37,7 +37,8 @@ function create_ogre2()
   return {
     Mesh = {filename = "penguin.mesh"},
     Transform = { pos = Vec3f(10,0,0)},
-    lua_component = {}
+    lua_component = {},
+    Light = {}
     }
 end
 

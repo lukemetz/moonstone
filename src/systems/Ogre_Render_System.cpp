@@ -2,6 +2,7 @@
 #include "Manager.hpp"
 #include "components/Transform.hpp"
 #include "components/Mesh.hpp"
+#include "components/Light.hpp"
 
 void Ogre_Render_System::init()
 {
@@ -32,5 +33,14 @@ void Ogre_Render_System::update(float dt)
     mesh->scene_node->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
     mesh->scene_node->setOrientation(transform->rot.w, transform->rot.x, transform->rot.y, transform->rot.z);
     mesh->scene_node->setScale(transform->scale.x, transform->scale.y, transform->scale.z);
+  }
+
+  std::vector<std::string> light_types = {"Transform", "Light"};
+  entities = manager->get_entities(light_types);
+
+  for (int entity : entities) {
+    Transform * transform = (Transform *) manager->get_component(entity, "Transform");
+    Light * light = (Light *) manager->get_component(entity, "Light");
+    light->light->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
   }
 }
