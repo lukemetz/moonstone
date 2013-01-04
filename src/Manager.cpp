@@ -3,6 +3,7 @@
 #include <iostream>
 #include "systems/Lua_System.hpp"
 #include "components/Lua_Component.hpp"
+#include <sstream>
 
 Manager::Manager()
 {
@@ -21,6 +22,11 @@ void Manager::add_component(int entity, Component *component)
   component->added_to_entity(this, entity);
 }
 
+void Manager::set_prefix(std::string path)
+{
+  prefix = path;
+}
+
 Component * Manager::create_component(std::string name)
 {
   auto iter = string_component_lookup.find(name);
@@ -29,7 +35,9 @@ Component * Manager::create_component(std::string name)
   } else {
     //Look in the lua directory and make from there.
     Lua_Component * c = (Lua_Component *)string_component_lookup["Lua_Component"]();
-    std::string filename = std::string("lua/components/").append(name).append(".lua");
+    std::stringstream ss;
+    ss << prefix << "/components/" << name << ".lua";
+    std::string filename = ss.str();
     std::cout << "Component from: " << filename << std::endl;
     c->set_file(filename);
     return c;
@@ -44,7 +52,9 @@ System* Manager::create_system(std::string name)
   } else {
     //Look in the lua directory and make from there.
     Lua_System * s = (Lua_System *) string_system_lookup["Lua_System"]();
-    std::string filename = std::string("lua/systems/").append(name).append(".lua");
+    std::stringstream ss;
+    ss << prefix << "/systems/" << name << ".lua";
+    std::string filename = ss.str();
     std::cout << "Component from: " << filename << std::endl;
     s->set_file(filename);
     return s;

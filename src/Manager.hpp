@@ -33,12 +33,16 @@ public:
 
   void add_system(System * system);
   void update(float dt);
-private:
+
+  void set_prefix(std::string path);
+
+protected:
   std::map<std::string, Component*(*)()> string_component_lookup;
   std::multimap<std::string, int> component_lookup;
   std::map<int, std::map<std::string, Component *>> entity_lookup;
   std::vector<System *> systems;
   std::map<std::string, System*(*)()> string_system_lookup;
   int on_entity;
+  std::string prefix;
 
 };

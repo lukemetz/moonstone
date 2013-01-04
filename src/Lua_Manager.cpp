@@ -8,9 +8,9 @@ Lua_Manager::Lua_Manager()
   L = luaL_newstate();
   luaL_openlibs(L);
   int s;
-  s = luaL_dofile(L, "lua/utils/Vec3f.lua");
+  s = luaL_dofile(L, "src/lua/utils/Vec3f.lua");
   report_errors(s);
-  s = luaL_dofile(L, "lua/utils/Quat.lua");
+  s = luaL_dofile(L, "src/lua/utils/Quat.lua");
   report_errors(s);
   instance = this;
 }

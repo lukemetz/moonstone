@@ -28,8 +28,12 @@ void report_errors(lua_State *L, int status)
   }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+  if (argc < 2) {
+    std::cerr << "No directory specified" << std::endl;
+    return 1;
+  }
   Manager *manager = new Manager();
   register_components(manager);
   register_systems(manager);
@@ -40,7 +44,8 @@ int main()
   ogre_manager->init();
 
   Bullet_Manager * bullet_manager = new Bullet_Manager();
-  init_from_lua(manager, "lua/main.lua");
+  manager->set_prefix(std::string(argv[1]));
+  init_from_lua(manager, std::string(argv[1]).append("/main.lua"));
 
   try {
     ogre_manager->go();
