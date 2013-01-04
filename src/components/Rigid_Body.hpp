@@ -17,5 +17,5 @@ struct Rigid_Body : public Component
 
   btRigidBody * body = nullptr;
   Vec3f offset;
-  float mass;
+  float mass = 0;
 };

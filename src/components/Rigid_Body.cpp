@@ -23,11 +23,13 @@ void Rigid_Body::update_from_lua(lua_State * L)
 void Rigid_Body::init_from_lua(lua_State * L)
 {
   lua_getfield(L, -1, "mass");
-  mass = lua_tonumber(L, -1);
+  if(!lua_isnil(L, -1))
+    mass = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
   lua_getfield(L, -1, "offset");
-  Lua_Manager::get_instance()->from_lua(offset);
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(offset);
   lua_pop(L, 1);
 }
 

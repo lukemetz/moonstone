@@ -22,19 +22,27 @@ void Collider::update_from_lua(lua_State * L)
 void Collider::init_from_lua(lua_State * L)
 {
   lua_getfield(L, -1, "type");
-  type = lua_tostring(L, -1);
+  if (!lua_isnil(L, -1)) {
+    type = lua_tostring(L, -1);
+  } else {
+    type = "sphere";
+  }
   lua_pop(L, 1);
 
   if (type == "sphere") {
+    float radius = 1;
     lua_getfield(L, -1, "radius");
-    float radius = lua_tonumber(L, -1);
+    if (!lua_isnil(L, -1))
+      radius = lua_tonumber(L, -1);
     lua_pop(L, 1);
 
     set_sphere_shape(radius);
   } else if(type == "box") {
-    Vec3f width;
+    Vec3f width(2,2,2);
     lua_getfield(L, -1, "side");
-    Lua_Manager::get_instance()->from_lua(width);
+    if (!lua_isnil(L, -1))
+      Lua_Manager::get_instance()->from_lua(width);
+
     lua_pop(L, 1);
     set_box_shape(width/2);
   }

@@ -25,18 +25,18 @@ end
 function create_ogre()
   return {
     Mesh = {filename = "ogrehead.mesh"},
-    Transform = { pos = Vec3f(0,0,0), rot = Quat(0,0,0,1), scale = Vec3f(1,1,1) },
+    Transform = {},
     lua_component = {},
     Input = {},
     Collider = {type = "sphere", radius=3},
-    Rigid_Body = {mass = 2, offset = Vec3f(0,0,0)} 
+    Rigid_Body = {mass = 2} 
     }
 end
 
 function create_ogre2()
   return {
     Mesh = {filename = "penguin.mesh"},
-    Transform = { pos = Vec3f(10,0,0), rot = Quat(0,0,0,1), scale = Vec3f(1,1,1) },
+    Transform = { pos = Vec3f(10,0,0)},
     lua_component = {}
     }
 end
@@ -51,5 +51,5 @@ local val2 = add_entity(create_ogre2())
 add_entity {
   Transform = { pos = Vec3f(0,-10,0), rot = Quat(0,0,0,1), scale = Vec3f(1,1,1) },
   Collider = {type = "box", side=Vec3f(100,5,100)},
-  Rigid_Body = {mass = 0, offset = Vec3f(0,0,0)}
+  Rigid_Body = {}
 }
