@@ -30,6 +30,7 @@ void Ogre_Render_System::update(float dt)
     Transform * transform = (Transform *) manager->get_component(entity, "Transform");
     Mesh * mesh = (Mesh *) manager->get_component(entity, "Mesh");
     mesh->scene_node->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
+    mesh->scene_node->setOrientation(transform->rot.w, transform->rot.x, transform->rot.y, transform->rot.z);
     mesh->scene_node->setScale(transform->scale.x, transform->scale.y, transform->scale.z);
   }
 }

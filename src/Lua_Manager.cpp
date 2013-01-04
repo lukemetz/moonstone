@@ -7,7 +7,11 @@ Lua_Manager::Lua_Manager()
 {
   L = luaL_newstate();
   luaL_openlibs(L);
-  luaL_dofile(L, "lua/utils/Vec3f.lua");
+  int s;
+  s = luaL_dofile(L, "lua/utils/Vec3f.lua");
+  report_errors(s);
+  s = luaL_dofile(L, "lua/utils/Quat.lua");
+  report_errors(s);
   instance = this;
 }
 
@@ -61,5 +65,38 @@ void Lua_Manager::from_lua(Vec3f &vec)
 
   lua_getfield(L, -1, "z");
   vec.z = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+}
+
+int Lua_Manager::to_lua_ref(const Quat &quat)
+{
+  lua_getglobal(L, "Quat");
+  lua_pushnumber(L, quat.x);
+  lua_pushnumber(L, quat.y);
+  lua_pushnumber(L, quat.z);
+  lua_pushnumber(L, quat.w);
+
+  int s = lua_pcall(L, 4, 1, 0);
+  report_errors(s);
+
+  int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+  return ref;
+}
+void Lua_Manager::from_lua(Quat &quat)
+{
+  lua_getfield(L, -1, "x");
+  quat.x = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "y");
+  quat.y = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "z");
+  quat.z = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "w");
+  quat.w = lua_tonumber(L, -1);
   lua_pop(L, 1);
 }
