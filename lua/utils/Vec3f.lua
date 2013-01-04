@@ -1,7 +1,7 @@
 local mt = {}
 
 function Vec3f(x_, y_, z_)
-  local v = {x = (x_ or 0), y = y_ or 0, z = z_ or 0}
+  local v = {x = x_ or 0, y = y_ or 0, z = z_ or 0}
   setmetatable(v, mt)
   return v
 end
