@@ -1,4 +1,4 @@
-systems = { "lua_system", "Ogre_Render_System", "OIS_Input_System"}
+systems = { "lua_system", "Ogre_Render_System", "OIS_Input_System", "Bullet_Debug_Draw_System"}
 
 
 entities = {}

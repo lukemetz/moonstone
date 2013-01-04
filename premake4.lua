@@ -14,7 +14,7 @@ solution "moonstone"
     files {"**.cpp", "**.hpp", "**.h", "**.a"}
     excludes {"tests/**"}
     links{'lua5.2', 'OgreMain', 'OIS', 
-          'BulletCollision', 'BulletDynamics', 'LinearMath'}
+          'BulletCollision', 'BulletDynamics', 'LinearMath', 'BtOgre'}
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu",
             "src/externals/btogre"}
     buildoptions {"--std=c++11 -g"}
