@@ -6,6 +6,7 @@ solution "moonstone"
     kind "ConsoleApp"
     language "C++"
     includedirs {"src/",
+      "src/DeferredShading/include",
       "/usr/include/lua5.2/",
       "/usr/local/include/OGRE",
       "/usr/include/OIS/",

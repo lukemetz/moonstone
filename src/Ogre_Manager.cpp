@@ -139,6 +139,9 @@ bool Ogre_Manager::go()
   details_panel->setParamValue(10, "Solid");
   details_panel->hide();
 
+  deferred_shading_system = new DeferredShadingSystem(vp, scene_mgr, camera);
+  deferred_shading_system->initialize();
+
   root->addFrameListener(this);
 //-------------------------------------------------------------------------------------
   root->startRendering();

@@ -18,6 +18,9 @@
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
+#include "DeferredShading.h"
+
+
 class Manager;
 class Ogre_Manager;
 class OIS_Input_Manager;
@@ -66,6 +69,8 @@ public:
 
   static Ogre_Manager* get_instance();
   static Ogre_Manager* instance;
+
+  DeferredShadingSystem * deferred_shading_system;
 protected:
   void setup_framelistener();
 };
