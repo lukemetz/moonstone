@@ -3,6 +3,8 @@
 #include <string>
 #include <lua5.2/lua.hpp>
 
+class Manager;
+
 struct Component
 {
   virtual std::string name() {return "Hello";};
@@ -10,4 +12,5 @@ struct Component
   virtual void update_from_lua(lua_State * L) {};
 
   virtual void init_from_lua(lua_State * L) {update_from_lua(L);}
+  virtual void added_to_entity(Manager * manager, int entity) {}
 };

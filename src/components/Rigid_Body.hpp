@@ -5,19 +5,17 @@
 #include "Bullet_Manager.hpp"
 #include <btBulletDynamicsCommon.h>
 
-struct Collider : public Component
+struct Rigid_Body : public Component
 {
-  Collider();
+  Rigid_Body();
 
-  virtual std::string name() { return "Collider"; };
+  virtual std::string name() { return "Rigid_Body"; };
   virtual int get_lua_ref(lua_State * L);
   virtual void update_from_lua(lua_State * L);
   virtual void init_from_lua(lua_State * L);
   virtual void added_to_entity(Manager * manager, int entity);
 
-  void set_sphere_shape(float radius);
-  void set_box_shape(const Vec3f & half_side);
-
-  std::string type = "";
-  btCollisionShape * shape = nullptr;
+  btRigidBody * body = nullptr;
+  Vec3f offset;
+  float mass;
 };

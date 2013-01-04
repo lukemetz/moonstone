@@ -8,6 +8,7 @@
 #include "components/Input.hpp"
 
 #include "components/Collider.hpp"
+#include "components/Rigid_Body.hpp"
 
 void register_components(Manager * manager)
 {
@@ -17,4 +18,5 @@ void register_components(Manager * manager)
   manager->register_component<Lua_Component>("Lua_Component");
   manager->register_component<Input>("Input");
   manager->register_component<Collider>("Collider");
+  manager->register_component<Rigid_Body>("Rigid_Body");
 }

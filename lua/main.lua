@@ -29,7 +29,7 @@ function create_ogre()
     lua_component = {},
     Input = {},
     Collider = {type = "sphere", radius=3},
-    Rigid_Body = 
+    Rigid_Body = {mass = 2, offset = Vec3f(0,0,0)} 
     }
 end
 

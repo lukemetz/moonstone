@@ -16,6 +16,7 @@
 #include "register_systems.hpp"
 #include "init_from_lua.hpp"
 #include "OIS_Input_Manager.hpp"
+#include "Bullet_Manager.hpp"
 
 #include <OgreException.h>
 
@@ -38,6 +39,7 @@ int main()
   ogre_manager->set_ois_input_manager(input_manager);
   ogre_manager->init();
 
+  Bullet_Manager * bullet_manager = new Bullet_Manager();
   init_from_lua(manager, "lua/main.lua");
 
   try {

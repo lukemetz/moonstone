@@ -1,5 +1,7 @@
 #include "Collider.hpp"
 #include "Lua_Manager.hpp"
+#include "Rigid_Body.hpp"
+#include "Manager.hpp"
 
 Collider::Collider()
 {
@@ -33,7 +35,18 @@ void Collider::init_from_lua(lua_State * L)
     Vec3f width;
     lua_getfield(L, -1, "side");
     Lua_Manager::get_instance()->from_lua(width);
+    lua_pop(L, 1);
     set_box_shape(width/2);
+  }
+}
+
+void Collider::added_to_entity(Manager * manager, int entity)
+{
+  //Small hack here, try to init the rigid body
+  //again to make up for order of adding
+  Rigid_Body * r =static_cast<Rigid_Body *>(manager->get_component(entity, "Rigid_Body"));
+  if (r != nullptr) {
+    r->added_to_entity(manager, entity);
   }
 }
 
