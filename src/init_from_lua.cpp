@@ -5,12 +5,11 @@
 
 void setup_systems(lua_State * L, Manager * manager)
 {
-  //lua_pushglobaltable(L);
+  lua_pushglobaltable(L);
   lua_getfield(L, -1, "systems");
   std::cout << "istable?" << lua_istable(L, -1) << std::endl;
   std::cout << "got_sys" << std::endl;
 
-  int n = lua_rawlen(L, -1);
   lua_pushnil(L);
   while(lua_next(L, -2)) {
     std::string name = lua_tostring(L, -1);
@@ -29,10 +28,8 @@ void setup_components(lua_State * L, Manager * manager)
   std::cout << "istable?" << lua_istable(L, -1) << std::endl;
   std::cout << "got_entity" << std::endl;
 
-  int n = lua_rawlen(L, -1);
   lua_pushnil(L);
-  for (int i=0; i < n; i++) {
-    lua_next(L, -2);
+  while(lua_next(L, -2)) {
     int entity = manager->createEntity();
       lua_pushnil(L);  /* first key */
       while (lua_next(L, -2) != 0) {
@@ -54,7 +51,6 @@ void init_from_lua(Manager *manager, std::string filename)
   lua_State * L = Lua_Manager::get_instance()->get_lua_state();
   int s = luaL_dofile(L, filename.c_str());
   Lua_Manager::get_instance()->report_errors(s);
-  lua_pushglobaltable(L);
   setup_systems(L, manager);
   setup_components(L, manager);
 }

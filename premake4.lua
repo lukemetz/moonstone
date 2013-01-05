@@ -7,14 +7,13 @@ solution "moonstone"
     language "C++"
     includedirs {"src/",
       "src/DeferredShading/include",
-      "/usr/include/lua5.2/",
+      "/usr/local/include/luajit-2.0/",
       "/usr/local/include/OGRE",
       "/usr/include/OIS/",
       "/usr/include/bullet"}
-    
     files {"**.cpp", "**.hpp", "**.h", "**.a"}
     excludes {"tests/**"}
-    links{'lua5.2', 'OgreMain', 'OIS', 
+    links{'luajit-5.1', 'OgreMain', 'OIS', 
           'BulletCollision', 'BulletDynamics', 'LinearMath', 'BtOgre'}
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu",
             "src/externals/btogre"}

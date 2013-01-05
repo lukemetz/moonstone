@@ -1,11 +1,11 @@
 #pragma once
 
-#include <lua5.2/lua.hpp>
 #include <string>
 #include <vector>
 #include <map>
 
 #include "System.hpp"
+#include "Lua_Manager.hpp"
 
 struct Lua_System : public System
 {

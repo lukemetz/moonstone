@@ -1,4 +1,7 @@
-#include <lua5.2/lua.hpp>
+#pragma once
+#include "/usr/local/include/luajit-2.0/lua.hpp"
+#include "lua_compatibility.hpp"
+
 #include "utils/Vec3f.hpp"
 #include "utils/Quat.hpp"
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <lua5.2/lua.hpp>
 #include <string>
 #include <vector>
 

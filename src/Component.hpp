@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <lua5.2/lua.hpp>
+#include "Lua_Manager.hpp"
 
 class Manager;
 

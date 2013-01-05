@@ -1,7 +1,6 @@
 #include "Lua_System.hpp"
 #include <iostream>
 #include "Manager.hpp"
-#include "Lua_Manager.hpp"
 
 Lua_System::Lua_System()
 {
@@ -27,8 +26,6 @@ void Lua_System::set_file(std::string filename)
   s = lua_pcall(L, 1, 1, 0);
   Lua_Manager::get_instance()->report_errors(s);
 
-  int n = lua_rawlen(L, -1);
-
   lua_pushnil(L);
   while(lua_next(L, -2)) {
     const char * v = lua_tostring(L, -1);
@@ -53,12 +50,10 @@ void Lua_System::create_ref_vector()
   for(auto entity : entities) {
     entity_ref_vector[entity] = create_entity_ref(entity);
   }
-  lua_settop(L, 0);
 }
 
 int Lua_System::create_entity_ref(int entity)
 {
-  lua_settop(L, 0);
   lua_newtable(L);
   for(std::string component_name : components) {
     Component * component = manager->get_component(entity, component_name);
@@ -83,10 +78,9 @@ void Lua_System::replace_entity_ref(int entity)
 
 void Lua_System::update(float dt)
 {
+
   create_ref_vector();
   for(int entity : manager->get_entities(components)) {
-    //reset the stack
-    lua_settop(L, 0);
     lua_rawgeti(L, LUA_REGISTRYINDEX, script_ref);
 
     lua_getfield(L, -1, "update");
@@ -103,4 +97,5 @@ void Lua_System::update(float dt)
     replace_entity_ref(entity);
     lua_pop(L,1);
   }
+
 }
