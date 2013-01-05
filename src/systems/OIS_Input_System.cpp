@@ -11,10 +11,10 @@ const int num_mouse = 8;
 
 OIS_Input_System::OIS_Input_System()
 {
-  keys = (bool *)calloc(sizeof(bool), num_keys);
-  mouse = (bool *)calloc(sizeof(bool), num_mouse);
-  mouse_dx = (int *)calloc(sizeof(int), 1);
-  mouse_dy = (int *)calloc(sizeof(int), 1);
+  keys = (bool *)calloc(num_keys, sizeof(bool));
+  mouse = (bool *)calloc(num_mouse, sizeof(bool));
+  mouse_dx = (int *)calloc(1, sizeof(int));
+  mouse_dy = (int *)calloc(1, sizeof(int));
 }
 
 OIS_Input_System::~OIS_Input_System()
