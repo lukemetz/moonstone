@@ -18,6 +18,7 @@ struct Rigid_Body : public Component
   btRigidBody * body = nullptr;
   Vec3f offset;
   float mass = 0;
+  Vec3f forces = Vec3f(0,0,0);
 
   //Protected
   int on_step = 0;

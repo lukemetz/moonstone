@@ -11,13 +11,29 @@ Rigid_Body::Rigid_Body()
 int Rigid_Body::get_lua_ref(lua_State * L)
 {
   lua_newtable(L);
+  lua_pushnumber(L, mass);
+  lua_setfield(L, -2, "mass");
+
+  int forces_ref = Lua_Manager::get_instance()->to_lua_ref(forces);
+  lua_rawgeti(L, LUA_REGISTRYINDEX, forces_ref);
+  lua_setfield(L, -2, "forces");
 
   return luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
 void Rigid_Body::update_from_lua(lua_State * L)
 {
+  lua_getfield(L, -1, "forces");
+  Lua_Manager::get_instance()->from_lua(forces);
+  lua_pop(L, 1);
 
+  lua_getfield(L, -1, "mass");
+  mass = lua_tonumber(L, -1);
+
+  //update the rigid body
+  body->clearForces();
+  body->applyCentralForce(btVector3(forces.x, forces.y, forces.z));
+  
 }
 
 void Rigid_Body::init_from_lua(lua_State * L)
@@ -28,6 +44,11 @@ void Rigid_Body::init_from_lua(lua_State * L)
   lua_pop(L, 1);
 
   lua_getfield(L, -1, "offset");
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(offset);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "forces");
   if(!lua_isnil(L, -1))
     Lua_Manager::get_instance()->from_lua(offset);
   lua_pop(L, 1);
