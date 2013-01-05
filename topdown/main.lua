@@ -3,6 +3,7 @@ systems = {
   "Ogre_Render_System",
   "OIS_Input_System",
   "Bullet_Debug_Draw_System",
+  "player_mover",
   }
 
 
@@ -30,6 +31,7 @@ add_entity{
   Input = {},
   Collider = {type = "box", side = Vec3f(1,1,1)},
   Rigid_Body = {mass = 3},
+  player_movement = {},
   
 --  Player_Mover = { },
 }
