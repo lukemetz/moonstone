@@ -18,4 +18,7 @@ struct Rigid_Body : public Component
   btRigidBody * body = nullptr;
   Vec3f offset;
   float mass = 0;
+
+  //Protected
+  int on_step = 0;
 };
