@@ -8,10 +8,12 @@
 struct Lua_Component : public Component
 {
   Lua_Component();
-  void set_file(std::string filename);
+  void set_name(std::string name);
   virtual std::string name();
   virtual int get_lua_ref(lua_State * L);
-private:
+  void init_from_lua(lua_State * L);
+
+protected:
   std::string component_name;
   int component_ref;
   lua_State * L;

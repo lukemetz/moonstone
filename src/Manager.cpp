@@ -36,10 +36,7 @@ Component * Manager::create_component(std::string name)
     //Look in the lua directory and make from there.
     Lua_Component * c = (Lua_Component *)string_component_lookup["Lua_Component"]();
     std::stringstream ss;
-    ss << prefix << "/components/" << name << ".lua";
-    std::string filename = ss.str();
-    std::cout << "Component from: " << filename << std::endl;
-    c->set_file(filename);
+    c->set_name(name);
     return c;
   }
 }

@@ -9,16 +9,9 @@ Lua_Component::Lua_Component()
   component_name = "Lua_Undefined";
 }
 
-void Lua_Component::set_file(std::string filename)
+void Lua_Component::set_name(std::string name)
 {
-  L = Lua_Manager::get_instance()->get_lua_state();
-
-  int s = luaL_dofile(L, filename.c_str());
-  Lua_Manager::get_instance()->report_errors(s);
-  component_ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-  std::vector<std::string> strings = split(filename, '/');
-  component_name = split(strings.back(), '.')[0];
+  component_name = name;
 }
 
 int Lua_Component::get_lua_ref(lua_State * L)
@@ -29,4 +22,10 @@ int Lua_Component::get_lua_ref(lua_State * L)
 std::string Lua_Component::name()
 {
   return component_name;
+}
+
+void Lua_Component::init_from_lua(lua_State * L)
+{
+  lua_pushvalue(L, -1);
+  component_ref = luaL_ref(L, LUA_REGISTRYINDEX);
 }
