@@ -40,7 +40,19 @@ void Bullet_System::update(float dt)
                    trans.getRotation().getY(),
                    trans.getRotation().getZ(),
                    trans.getRotation().getW());
+    r->body->setLinearVelocity(btVector3(r->velocity.x, r->velocity.y, r->velocity.z));
+
+    //update the rigid body
+    r->body->clearForces();
+    r->body->applyCentralForce(btVector3(r->forces.x, r->forces.y, r->forces.z));
+    r->body->setFriction(r->friction);
   }
 
   bullet_manager->dynamics_world->stepSimulation(dt);
+  for (int entity : entities) {
+    Transform * t = static_cast<Transform *> (manager->get_component(entity, "Transform"));
+    Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, "Rigid_Body"));
+    btVector3 vel = r->body->getLinearVelocity();
+    r->velocity = Vec3f(vel.getX(), vel.getY(), vel.getZ());
+  }
 }

@@ -14,9 +14,16 @@ int Rigid_Body::get_lua_ref(lua_State * L)
   lua_pushnumber(L, mass);
   lua_setfield(L, -2, "mass");
 
+  lua_pushnumber(L, friction);
+  lua_setfield(L, -2, "friction");
+
   int forces_ref = Lua_Manager::get_instance()->to_lua_ref(forces);
   lua_rawgeti(L, LUA_REGISTRYINDEX, forces_ref);
   lua_setfield(L, -2, "forces");
+
+  int vel_ref = Lua_Manager::get_instance()->to_lua_ref(velocity);
+  lua_rawgeti(L, LUA_REGISTRYINDEX, vel_ref);
+  lua_setfield(L, -2, "velocity");
 
   return luaL_ref(L, LUA_REGISTRYINDEX);
 }
@@ -27,12 +34,17 @@ void Rigid_Body::update_from_lua(lua_State * L)
   Lua_Manager::get_instance()->from_lua(forces);
   lua_pop(L, 1);
 
+  lua_getfield(L, -1, "velocity");
+  Lua_Manager::get_instance()->from_lua(velocity);
+  lua_pop(L, 1);
+
   lua_getfield(L, -1, "mass");
   mass = lua_tonumber(L, -1);
+  lua_pop(L, 1);
 
-  //update the rigid body
-  body->clearForces();
-  body->applyCentralForce(btVector3(forces.x, forces.y, forces.z));
+  lua_getfield(L, -1, "friction");
+  friction = lua_tonumber(L, -1);
+  lua_pop(L, 1);
 
 }
 
@@ -41,6 +53,11 @@ void Rigid_Body::init_from_lua(lua_State * L)
   lua_getfield(L, -1, "mass");
   if(!lua_isnil(L, -1))
     mass = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "friction");
+  if(!lua_isnil(L, -1))
+    friction = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
   lua_getfield(L, -1, "offset");
@@ -61,6 +78,11 @@ void Rigid_Body::init_from_lua(lua_State * L)
   lua_getfield(L, -1, "forces");
   if(!lua_isnil(L, -1))
     Lua_Manager::get_instance()->from_lua(offset);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "velocity");
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(velocity);
   lua_pop(L, 1);
 }
 
@@ -87,5 +109,8 @@ void Rigid_Body::added_to_entity(Manager * manager, int entity)
 
   body = new btRigidBody(construction_info);
   body->setDamping(linear_damping, angular_damping);
+
+  body->setFriction(friction);
+  body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
   Bullet_Manager::get_instance()->add_rigid_body(body);
 }

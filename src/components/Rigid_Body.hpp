@@ -18,7 +18,9 @@ struct Rigid_Body : public Component
   btRigidBody * body = nullptr;
   Vec3f offset;
   float mass = 0;
+  float friction = 0;
   Vec3f forces = Vec3f(0,0,0);
+  Vec3f velocity = Vec3f(0,0,0);
   float linear_damping = 0;
   float angular_damping = 0;
 
