@@ -30,21 +30,29 @@ add_entity{
   Transform = {pos = Vec3f(0,10, 0)},
   Input = {},
   Collider = {type = "box", side = Vec3f(1,1,1)},
-  Rigid_Body = {mass = 3, linear_damping=.4},
-  player_movement = {force_mult = 1000, force_max = 20},
-  
---  Player_Mover = { },
+  Rigid_Body = {mass = 3,
+    friction=.1, linear_damping = .1,
+    angular_damping = 1},
+  player_movement = {
+    force_mult = 5000, 
+    force_max = 500,
+    max_vel = -20,
+    vel_reduction = 50,
+  }
 }
+
+for i=1,100 do
+  add_entity{
+    Transform = {pos = Vec3f(0, 10+i, 0)},
+    Collider = {type = "box", side = Vec3f(1,1,1)},
+    Rigid_Body = {mass = 1, friction = .5},
+    }
+end
 
 --ground
 add_entity{
   Transform = {pos = Vec3f(0,-10, 0)},
   Collider = {type = "box", side = Vec3f(100, 4, 100)},
-  Rigid_Body = {mass = 0}
+  Rigid_Body = {mass = 0, friction = .65}
 }
 
-add_entity{
-  Transform = {scale = Vec3f(.1, .1, .1), pos = Vec3f(0, 5, 0)},
-  Mesh = {filename = "ogrehead.mesh"},
-  Light = {}
-}
