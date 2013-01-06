@@ -38,7 +38,8 @@ add_entity{
     force_max = 500,
     max_vel = -20,
     vel_reduction = 50,
-  }
+  },
+  Mesh = { filename = "Player.mesh" },
 }
 
 for i=1,100 do
@@ -46,7 +47,8 @@ for i=1,100 do
     Transform = {pos = Vec3f(0, 10+i, 0)},
     Collider = {type = "box", side = Vec3f(1,1,1)},
     Rigid_Body = {mass = 1, friction = .5},
-    }
+    Mesh = { filename = "Enemy.mesh" },
+  }
 end
 
 --ground
