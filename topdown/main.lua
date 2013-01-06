@@ -30,8 +30,8 @@ add_entity{
   Transform = {pos = Vec3f(0,10, 0)},
   Input = {},
   Collider = {type = "box", side = Vec3f(1,1,1)},
-  Rigid_Body = {mass = 3},
-  player_movement = {},
+  Rigid_Body = {mass = 3, linear_damping=.4},
+  player_movement = {force_mult = 1000, force_max = 20},
   
 --  Player_Mover = { },
 }

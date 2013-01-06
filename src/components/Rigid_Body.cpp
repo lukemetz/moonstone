@@ -33,7 +33,7 @@ void Rigid_Body::update_from_lua(lua_State * L)
   //update the rigid body
   body->clearForces();
   body->applyCentralForce(btVector3(forces.x, forces.y, forces.z));
-  
+
 }
 
 void Rigid_Body::init_from_lua(lua_State * L)
@@ -46,6 +46,16 @@ void Rigid_Body::init_from_lua(lua_State * L)
   lua_getfield(L, -1, "offset");
   if(!lua_isnil(L, -1))
     Lua_Manager::get_instance()->from_lua(offset);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "linear_damping");
+  if(!lua_isnil(L, -1))
+    linear_damping = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "angular_damping");
+  if(!lua_isnil(L, -1))
+    angular_damping = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
   lua_getfield(L, -1, "forces");
@@ -76,5 +86,6 @@ void Rigid_Body::added_to_entity(Manager * manager, int entity)
     construction_info(mass, motion_state, shape, fall_inertia);
 
   body = new btRigidBody(construction_info);
+  body->setDamping(linear_damping, angular_damping);
   Bullet_Manager::get_instance()->add_rigid_body(body);
 }
