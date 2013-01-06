@@ -2,7 +2,7 @@
 solution "moonstone"
   configurations { "Debug", "Release" }
 
-  project "main"
+  project "moonstone"
     kind "ConsoleApp"
     language "C++"
     includedirs {"src/",
