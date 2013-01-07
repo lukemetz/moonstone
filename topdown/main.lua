@@ -23,13 +23,15 @@ function add_entities(entity_array)
 end
 
 --add camera
-add_entity{Camera = {}}
+add_entity{Camera = {near_clip = .1}}
 
+local box_width = 4
+local box_vec = Vec3f(box_width, box_width, box_width)
 --player
 add_entity{
   Transform = {pos = Vec3f(0,10, 0)},
   Input = {},
-  Collider = {type = "box", side = Vec3f(1,1,1)},
+  Collider = {type = "box", side = box_vec},
   Rigid_Body = {mass = 3,
     friction=.1, linear_damping = .1,
     angular_damping = 1},
@@ -44,8 +46,8 @@ add_entity{
 
 for i=1,100 do
   add_entity{
-    Transform = {pos = Vec3f(0, 10+i, 0)},
-    Collider = {type = "box", side = Vec3f(1,1,1)},
+    Transform = {pos = Vec3f(0, 10+i*4, 0)},
+    Collider = {type = "box", side = box_vec},
     Rigid_Body = {mass = 1, friction = .5},
     Mesh = { filename = "Enemy.mesh" },
   }
