@@ -86,8 +86,8 @@ Ogre_Manager::~Ogre_Manager()
 bool Ogre_Manager::go()
 {
   camera = scene_mgr->createCamera("Default_Cam");
-  camera->setPosition(Ogre::Vector3(0,0,80));
-  camera->lookAt(Ogre::Vector3(0,0,-300));
+  camera->setPosition(Ogre::Vector3(0,10,10));
+  camera->lookAt(Ogre::Vector3(0,0,0));
   camera->setNearClipDistance(5);
 
   camera_man = new OgreBites::SdkCameraMan(camera);

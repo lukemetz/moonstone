@@ -2,6 +2,7 @@
 #include "Manager.hpp"
 #include "components/Transform.hpp"
 #include "components/Mesh.hpp"
+#include "components/Camera.hpp"
 #include "components/Light.hpp"
 
 void Ogre_Render_System::init()
@@ -18,7 +19,9 @@ void Ogre_Render_System::update(float dt)
     exit(1);
   } else {
     int entity = entities[0];
-    Transform * transform = (Transform*)manager->get_component(entity, "Transform");
+    Transform * transform = static_cast<Transform*>(manager->get_component(entity, "Transform"));
+    Camera * camera = static_cast<Camera*>(manager->get_component(entity, "Camera"));
+    ogre_manager->camera->setNearClipDistance(camera->near_clip);//camera->near_clip);
     if (transform) {
       ogre_manager->camera->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
     }
