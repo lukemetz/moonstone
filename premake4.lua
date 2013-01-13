@@ -7,14 +7,15 @@ solution "moonstone"
     language "C++"
     includedirs {"src/",
       "src/DeferredShading/include",
-      "/usr/local/include/luajit-2.0/",
-      "/usr/local/include/OGRE",
+      "/usr/include/luajit-2.0/",
+      "/usr/include/OGRE",
       "/usr/include/OIS/",
       "/usr/include/bullet"}
     files {"**.cpp", "**.hpp", "**.h", "**.a"}
     excludes {"tests/**"}
     links{'luajit-5.1', 'OgreMain', 'OIS', 
-          'BulletCollision', 'BulletDynamics', 'LinearMath', 'BtOgre'}
+          'BulletCollision', 'BulletDynamics',
+          'LinearMath', 'BtOgre', "boost_system"}
     libdirs {"/usr/local/lib", "/usr/lib/x86_64-linux-gnu",
             "src/externals/btogre"}
     buildoptions {"--std=c++11 -g"}
