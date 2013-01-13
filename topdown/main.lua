@@ -40,16 +40,19 @@ add_entity{
     force_max = 500,
     max_vel = -20,
     vel_reduction = 50,
+    jump_vel = 10,
+    has_jumped = false,
   },
   Mesh = { filename = "Player.mesh" },
 }
 
-for i=1,100 do
+for i=1,10 do
   add_entity{
     Transform = {pos = Vec3f(0, 10+i*4, 0)},
     Collider = {type = "box", side = box_vec},
     Rigid_Body = {mass = 1, friction = .5},
     Mesh = { filename = "Enemy.mesh" },
+    Light = { },
   }
 end
 
