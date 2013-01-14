@@ -35,7 +35,9 @@ public:
   void update(float dt);
 
   void set_prefix(std::string path);
-
+  
+  void pause();
+  void resume();
 protected:
   std::map<std::string, Component*(*)()> string_component_lookup;
   std::multimap<std::string, int> component_lookup;
@@ -44,5 +46,7 @@ protected:
   std::map<std::string, System*(*)()> string_system_lookup;
   int on_entity;
   std::string prefix;
+
+  bool paused;
 
 };

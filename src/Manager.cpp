@@ -1,6 +1,7 @@
 #include "Manager.hpp"
 #include <algorithm>
 #include <iostream>
+#include "Lua_Manager.hpp"
 #include "systems/Lua_System.hpp"
 #include "components/Lua_Component.hpp"
 #include <sstream>
@@ -111,7 +112,23 @@ void Manager::add_system(System *system)
 
 void Manager::update(float dt)
 {
+
   for (System *system : systems) {
+    //pause all but input and pause systems
+    if (paused == true &&
+        (system->get_name() != "OIS_Input_System" &&
+         system->get_name() != "Pause_System")) {
+      continue;
+    }
     system->update(dt);
   }
+}
+void Manager::pause()
+{
+  paused = true;
+}
+
+void Manager::resume()
+{
+  paused = false;
 }
