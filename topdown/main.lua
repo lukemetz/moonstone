@@ -4,6 +4,7 @@ systems = {
   "OIS_Input_System",
   "Bullet_Debug_Draw_System",
   "player_mover",
+  "Pause_System",
   }
 
 
@@ -63,3 +64,7 @@ add_entity{
   Rigid_Body = {mass = 0, friction = .65}
 }
 
+add_entity {
+  single = {paused = false, keydown = false},
+  Input = {}
+}

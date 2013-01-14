@@ -18,6 +18,8 @@
 #include "OIS_Input_Manager.hpp"
 #include "Bullet_Manager.hpp"
 
+#include "bindings.hpp"
+
 #include <OgreException.h>
 
 void report_errors(lua_State *L, int status)
@@ -45,6 +47,8 @@ int main(int argc, char *argv[])
 
   Bullet_Manager * bullet_manager = new Bullet_Manager();
   manager->set_prefix(std::string(argv[1]));
+  
+  lua_setup_manager(lua_man->get_lua_state(), manager);
   init_from_lua(manager, std::string(argv[1]).append("/main.lua"));
 
   try {
