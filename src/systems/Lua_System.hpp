@@ -19,6 +19,8 @@ struct Lua_System : public System
   int create_entity_ref(int entity);
   void replace_entity_ref(int entity);
 
+  virtual std::string get_name();
+  void set_name(std::string name);
 private:
   lua_State *L;
   int script_ref;

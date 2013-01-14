@@ -54,6 +54,7 @@ System* Manager::create_system(std::string name)
     std::string filename = ss.str();
     std::cout << "Component from: " << filename << std::endl;
     s->set_file(filename);
+    s->set_name(name);
     return s;
   }
 }

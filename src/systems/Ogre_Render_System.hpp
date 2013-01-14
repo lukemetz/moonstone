@@ -11,5 +11,7 @@ public:
   Ogre_Manager * ogre_manager;
   virtual void init();
   virtual void update(float dt);
-
+  virtual std::string get_name() {
+    return "Ogre_Render_System";
+  }
 };

@@ -99,3 +99,11 @@ void Lua_System::update(float dt)
   }
 
 }
+std::string Lua_System::get_name()
+{
+  return script_name;
+}
+void Lua_System::set_name(std::string name)
+{
+  script_name = name;
+}
