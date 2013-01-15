@@ -14,6 +14,8 @@ Lua_Manager::Lua_Manager()
   report_errors(s);
   s = luaL_dofile(L, "src/lua/utils/keycodes.lua");
   report_errors(s);
+  s = luaL_dofile(L, "src/lua/deepcopy.lua");
+  report_errors(s);
   instance = this;
 }
 
