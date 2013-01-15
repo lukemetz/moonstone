@@ -13,4 +13,5 @@ struct Component
 
   virtual void init_from_lua(lua_State * L) {update_from_lua(L);}
   virtual void added_to_entity(Manager * manager, int entity) {}
+  virtual void remove() {};
 };
