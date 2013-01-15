@@ -24,9 +24,7 @@ function reduce_mag(orig, rate)
 end
 
 function lua_system:try_jump(entity)
-  print (entity.Input.keys[key.SPACE])
   if entity.Input.keys[key.SPACE] and not entity.player_movement.has_jumped then
-    print "jumpen the styuff"
     entity.player_movement.has_jumped = true
     entity.Rigid_Body.velocity.y = entity.player_movement.jump_vel;
   end
@@ -55,7 +53,7 @@ function lua_system:update(dt, entity)
     entity.Rigid_Body.velocity.z = entity.Rigid_Body.velocity.z + reduce_mag(entity.Rigid_Body.velocity.z, vel_reduction*dt);
     entity.Rigid_Body.forces.z = 0;
   end
-  
+
   self:try_jump(entity)
 end
 

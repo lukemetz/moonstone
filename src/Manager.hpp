@@ -39,24 +39,31 @@ public:
   void update(float dt);
 
   void set_prefix(std::string path);
-  
+
   void pause();
   void resume();
+  void reload_from_file();
+  void set_reload_ref(int ref);
+  void set_original_entities_ref(int ref);
   void set_entities_file(std::string file);
 
   void clear_entities();
   void create_entities_from_file();
+
 protected:
   std::map<std::string, Component*(*)()> string_component_lookup;
   std::multimap<std::string, int> component_lookup;
   std::map<int, std::map<std::string, Component *>> entity_lookup;
   std::vector<System *> systems;
   std::map<std::string, System*(*)()> string_system_lookup;
-  int on_entity;
   std::vector<int> entities;
+  void do_resume();
 
+  int on_entity;
   std::string prefix;
-  bool paused;
-
+  bool paused = false;
+  bool will_resume = false;
   std::string entities_file;
+  int original_entities_ref = 0;
+  int reload_function_ref = 0;
 };

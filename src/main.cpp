@@ -47,9 +47,15 @@ int main(int argc, char *argv[])
 
   Bullet_Manager * bullet_manager = new Bullet_Manager();
   manager->set_prefix(std::string(argv[1]));
-  
-  lua_setup_manager(lua_man->get_lua_state(), manager);
-  init_from_lua(manager, std::string(argv[1]).append("/main.lua"));
+  lua_State *L = lua_man->get_lua_state();
+
+  lua_setup_manager(L, manager);
+
+  int s = luaL_dofile(L, "src/lua/delta.lua"); //Why is everything hardcoded :(
+  lua_man->report_errors(s);
+  int reload_function = luaL_ref(L, LUA_REGISTRYINDEX);
+  manager->set_reload_ref(reload_function);
+
   std::string entities_file = std::string(argv[1]).append("/main.lua");
   manager->set_entities_file(entities_file);
 

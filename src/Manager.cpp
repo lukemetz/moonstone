@@ -133,7 +133,22 @@ void Manager::update(float dt)
     }
     system->update(dt);
   }
+  if (will_resume == true) {
+    do_resume();
+  }
 }
+
+void Manager::do_resume()
+{
+  will_resume = false;
+  paused = false;
+  for (System * system : systems) {
+    system->reload();
+  }
+  std::cout << "Done updating systems" << std::endl;
+  reload_from_file();
+}
+
 void Manager::pause()
 {
   paused = true;
@@ -141,7 +156,49 @@ void Manager::pause()
 
 void Manager::resume()
 {
-  paused = false;
+  will_resume = true;
+}
+
+void Manager::reload_from_file()
+{
+  //Does this method belong here??
+  lua_State * L = Lua_Manager::get_instance()->get_lua_state();
+  lua_rawgeti(L, LUA_REGISTRYINDEX, reload_function_ref); //get the function
+  
+  lua_rawgeti(L, LUA_REGISTRYINDEX, original_entities_ref); // old_entities arg
+  
+  int s = luaL_dofile(L, entities_file.c_str());
+  lua_pushglobaltable(L);
+  lua_getfield(L, -1, "entities");
+  lua_remove(L, -2);
+  Lua_Manager::get_instance()->report_errors(s);
+  
+  s = lua_pcall(L, 2, 1, 0);
+  Lua_Manager::get_instance()->report_errors(s);
+  bool ret = lua_toboolean(L, -1);
+  //The signal to remake the scene
+  if (ret == false) {
+    std::cout << "Cannot parse changes, remaking scene" << std::endl;  
+    clear_entities();
+    create_entities_from_file();
+  }
+}
+
+
+void Manager::set_reload_ref(int ref)
+{
+  reload_function_ref = ref;
+}
+
+void Manager::set_original_entities_ref(int ref)
+{
+  original_entities_ref = ref;
+}
+
+void Manager::set_entities_file(std::string file)
+{
+  entities_file = file;
+}
 
 void Manager::clear_entities()
 {

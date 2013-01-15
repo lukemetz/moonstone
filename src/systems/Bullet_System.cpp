@@ -4,6 +4,7 @@
 #include "components/Transform.hpp"
 #include "Manager.hpp"
 #include <vector>
+#include <iostream>
 
 void Bullet_System::init()
 {
@@ -46,6 +47,7 @@ void Bullet_System::update(float dt)
     r->body->clearForces();
     r->body->applyCentralForce(btVector3(r->forces.x, r->forces.y, r->forces.z));
     r->body->setFriction(r->friction);
+
   }
 
   bullet_manager->dynamics_world->stepSimulation(dt);
