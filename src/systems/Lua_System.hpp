@@ -13,6 +13,7 @@ struct Lua_System : public System
   void set_file(std::string filename);
   ~Lua_System();
   void init();
+  void reload();
   void update(float dt);
   lua_State * get_lua_state();
 
@@ -21,10 +22,11 @@ struct Lua_System : public System
 
   virtual std::string get_name();
   void set_name(std::string name);
-private:
+protected:
   lua_State *L;
   int script_ref;
   std::string script_name;
+  std::string filename;
   std::vector<std::string> components;
   std::map<int, int> entity_ref_vector;
   void create_ref_vector();

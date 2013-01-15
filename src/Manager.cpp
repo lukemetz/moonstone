@@ -141,4 +141,7 @@ void Manager::pause()
 void Manager::resume()
 {
   paused = false;
+  for (System * system : systems) {
+    system->reload();
+  }
 }

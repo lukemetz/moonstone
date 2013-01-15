@@ -8,7 +8,7 @@ struct System
   virtual void init() {};
   virtual void update(float dt) {};
   virtual std::string get_name() {return "Generic System";};
-
+  virtual void reload() {};
   void set_manager(Manager * manag)
   {
     manager = manag;
