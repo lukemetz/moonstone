@@ -3,4 +3,4 @@
 
 class Manager;
 
-void init_from_lua(Manager * manager, std::string filename);
+int init_from_lua(Manager * manager, std::string filename);

@@ -21,7 +21,7 @@ void setup_systems(lua_State * L, Manager * manager)
   lua_pop(L, 1);
 }
 
-void setup_components(lua_State * L, Manager * manager)
+int setup_components(lua_State * L, Manager * manager)
 {
   lua_pushglobaltable(L);
   lua_getfield(L, -1, "entities");
@@ -43,14 +43,17 @@ void setup_components(lua_State * L, Manager * manager)
       }
     lua_pop(L, 1);
   }
+  int entities_ref = luaL_ref(L, LUA_REGISTRYINDEX);
   lua_pop(L, 1);
+  return entities_ref;
 }
 
-void init_from_lua(Manager *manager, std::string filename)
+int init_from_lua(Manager *manager, std::string filename)
 {
   lua_State * L = Lua_Manager::get_instance()->get_lua_state();
   int s = luaL_dofile(L, filename.c_str());
   Lua_Manager::get_instance()->report_errors(s);
   setup_systems(L, manager);
-  setup_components(L, manager);
+  int entities = setup_components(L, manager);
+  return entities;
 }
