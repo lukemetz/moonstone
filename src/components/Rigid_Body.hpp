@@ -14,6 +14,7 @@ struct Rigid_Body : public Component
   virtual void update_from_lua(lua_State * L);
   virtual void init_from_lua(lua_State * L);
   virtual void added_to_entity(Manager * manager, int entity);
+  virtual void remove();
 
   btRigidBody * body = nullptr;
   Vec3f offset;

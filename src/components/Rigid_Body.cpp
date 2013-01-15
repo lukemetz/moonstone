@@ -114,3 +114,11 @@ void Rigid_Body::added_to_entity(Manager * manager, int entity)
   body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
   Bullet_Manager::get_instance()->add_rigid_body(body);
 }
+
+void Rigid_Body::remove()
+{
+  Bullet_Manager::get_instance()->remove_rigid_body(body);
+  delete body->getMotionState();
+  delete body;
+  body = nullptr;
+}
