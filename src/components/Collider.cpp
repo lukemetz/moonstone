@@ -48,6 +48,11 @@ void Collider::init_from_lua(lua_State * L)
   }
 }
 
+void Collider::remove()
+{
+  delete shape;
+}
+
 void Collider::added_to_entity(Manager * manager, int entity)
 {
   //Small hack here, try to init the rigid body

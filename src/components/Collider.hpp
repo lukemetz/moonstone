@@ -14,7 +14,7 @@ struct Collider : public Component
   virtual void update_from_lua(lua_State * L);
   virtual void init_from_lua(lua_State * L);
   virtual void added_to_entity(Manager * manager, int entity);
-
+  virtual void remove();
   void set_sphere_shape(float radius);
   void set_box_shape(const Vec3f & half_side);
 
