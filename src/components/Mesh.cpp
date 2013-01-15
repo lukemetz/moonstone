@@ -36,6 +36,15 @@ void Mesh::set_file(std::string filename)
   }
 }
 
+void Mesh::remove()
+{
+  Ogre_Manager * ogre_manager = Ogre_Manager::get_instance();
+  ogre_manager->scene_mgr->destroyEntity(entity);
+  ogre_manager->scene_mgr->destroySceneNode(scene_node);
+  entity = nullptr;
+  scene_node = nullptr;
+}
+
 int Mesh::get_lua_ref(lua_State * L)
 {
   lua_newtable(L);
