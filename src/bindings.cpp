@@ -9,19 +9,22 @@ void lua_setup_manager(lua_State *L, Manager * manager)
 {
   lua_pushglobaltable(L);
   lua_createtable(L, 2, 0);
-  
+
   lua_pushlightuserdata(L, static_cast<void *>(manager));
   lua_setfield(L, -2, "ptr");
 
   lua_pushcfunction(L, &lua_manager_pause);
   lua_setfield(L, -2, "pause");
- 
+
   lua_pushcfunction(L, &lua_manager_resume);
   lua_setfield(L, -2, "resume");
-  
+
   lua_pushcfunction(L, &lua_manager_get_all_entities);
   lua_setfield(L, -2, "get_all_entities");
- 
+
+  lua_pushcfunction(L, &lua_manager_update_all_entities);
+  lua_setfield(L, -2, "update_all_entities");
+
   lua_setfield(L, -2, "manager");
   lua_pop(L, 1);
 }
@@ -61,17 +64,36 @@ int lua_manager_get_all_entities(lua_State *L)
   lua_createtable(L, entities.size(), 0);
   int index = 0;
   for (int entity : entities) {
-    std::cout << "Entity:" << entity << std::endl;
     std::map<std::string, Component *> map = manager->get_all_components_map(entity);
     lua_createtable(L, 0, 0); //create the entity table
     for (auto iter = map.begin(); iter != map.end(); ++iter) {
       int ref = iter->second->get_lua_ref(L);
       //Set each component by name
-      lua_rawgeti(L, LUA_REGISTRYINDEX, ref); 
+      lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
       lua_setfield(L, -2, iter->first.c_str());
-      std::cout << "    " << iter->first << std::endl;
     }
     lua_rawseti(L, -2, index++); //set the index of entity
   }
   return 1;
+}
+
+int lua_manager_update_all_entities(lua_State *L)
+{
+  Manager * manager = get_manager(L);
+  std::vector<int> entities = manager->get_all_entities();
+  lua_pushvalue(L, 2); // Push the first non self argument to -1
+  lua_pushnil(L);
+  while(lua_next(L, -2)) {
+    int entity = lua_tonumber(L, -2);
+    lua_pushnil(L);
+    while(lua_next(L, -2)) {
+      std::string component_name = lua_tostring(L, -2);
+      Component * comp = manager->get_component(entity, component_name);
+      comp->update_from_lua(L);
+      lua_pop(L, 1);
+    }
+    lua_pop(L, 1);
+  }
+  lua_pop(L, 1);
+  return 0;
 }
