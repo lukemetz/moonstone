@@ -18,8 +18,12 @@ public:
   void add_component(int index, Component *component);
   Component * create_component(std::string);
   std::vector<int> get_entities(std::vector<std::string> components);
-  Component * get_component(int entity, std::string component_name);
   std::vector<int> get_entities(std::string name);
+  std::vector<int> get_all_entities();
+
+  Component * get_component(int entity, std::string component_name);
+  std::map<std::string, Component *> get_all_components_map(int entity);
+
   template<typename T> void register_component(std::string name)
   {
     string_component_lookup[name] = (Component *(*)())&create_inst<T>;
@@ -45,8 +49,9 @@ protected:
   std::vector<System *> systems;
   std::map<std::string, System*(*)()> string_system_lookup;
   int on_entity;
-  std::string prefix;
+  std::vector<int> entities;
 
+  std::string prefix;
   bool paused;
 
 };

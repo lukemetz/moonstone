@@ -13,6 +13,7 @@ Manager::Manager()
 
 int Manager::createEntity()
 {
+  entities.push_back(on_entity);
   return on_entity++;
 }
 
@@ -92,6 +93,15 @@ std::vector<int> Manager::get_entities(std::vector<std::string> components)
     sum = output;
   }
   return sum;
+}
+std::vector<int> Manager::get_all_entities()
+{
+  return entities;
+}
+
+std::map<std::string, Component *> Manager::get_all_components_map(int entity)
+{
+  return entity_lookup[entity];
 }
 
 Component * Manager::get_component(int entity, std::string component_name)
