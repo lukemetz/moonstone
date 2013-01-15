@@ -12,6 +12,7 @@ struct Light : public Component
   virtual int get_lua_ref(lua_State * L);
   virtual void update_from_lua(lua_State * L);
   virtual void init_from_lua(lua_State * L);
+  virtual void remove();
 
   Ogre::Light* light;
 };

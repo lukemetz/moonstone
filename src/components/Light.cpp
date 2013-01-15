@@ -20,3 +20,8 @@ void Light::update_from_lua(lua_State * L)
 void Light::init_from_lua(lua_State * L)
 {
 }
+
+void Light::remove()
+{
+  Ogre_Manager::get_instance()->scene_mgr->destroyLight(light);
+}
