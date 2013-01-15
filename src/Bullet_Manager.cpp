@@ -32,3 +32,8 @@ void Bullet_Manager::add_rigid_body(btRigidBody * body)
 {
   dynamics_world->addRigidBody(body);
 }
+
+void Bullet_Manager::remove_rigid_body(btRigidBody * body)
+{
+  dynamics_world->removeRigidBody(body);
+}

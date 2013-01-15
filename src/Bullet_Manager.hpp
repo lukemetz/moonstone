@@ -8,6 +8,7 @@ public:
   ~Bullet_Manager();
 
   void add_rigid_body(btRigidBody * body);
+  void remove_rigid_body(btRigidBody * body);
 
   btBroadphaseInterface * broadphase;
   btDefaultCollisionConfiguration * collision_configuration;
