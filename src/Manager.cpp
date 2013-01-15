@@ -5,6 +5,7 @@
 #include "systems/Lua_System.hpp"
 #include "components/Lua_Component.hpp"
 #include <sstream>
+#include "init_from_lua.hpp"
 
 Manager::Manager()
 {
@@ -144,4 +145,9 @@ void Manager::resume()
   for (System * system : systems) {
     system->reload();
   }
+void Manager::create_entities_from_file()
+{
+  //This function is awful......
+  int old_file_entities = init_from_lua(this, entities_file);
+  set_original_entities_ref(old_file_entities);
 }

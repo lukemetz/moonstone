@@ -50,6 +50,10 @@ int main(int argc, char *argv[])
   
   lua_setup_manager(lua_man->get_lua_state(), manager);
   init_from_lua(manager, std::string(argv[1]).append("/main.lua"));
+  std::string entities_file = std::string(argv[1]).append("/main.lua");
+  manager->set_entities_file(entities_file);
+
+  manager->create_entities_from_file();
 
   try {
     ogre_manager->go();
