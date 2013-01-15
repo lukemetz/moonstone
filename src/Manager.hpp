@@ -43,6 +43,8 @@ public:
   void pause();
   void resume();
   void set_entities_file(std::string file);
+
+  void clear_entities();
   void create_entities_from_file();
 protected:
   std::map<std::string, Component*(*)()> string_component_lookup;

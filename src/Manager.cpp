@@ -142,9 +142,30 @@ void Manager::pause()
 void Manager::resume()
 {
   paused = false;
+
+void Manager::clear_entities()
+{
   for (System * system : systems) {
-    system->reload();
+    system->remove();
+    delete system;
   }
+  //for each entity
+  for (auto iter = entity_lookup.begin(); iter != entity_lookup.end(); ++iter) {
+    //for each component
+    std::map<std::string, Component *> map = iter->second;
+    for(auto iter2 = map.begin(); iter2 != map.end(); ++iter2) {
+      iter2->second->remove();
+      delete iter2->second;
+    }
+  }
+
+  on_entity = 1;
+  component_lookup.clear();
+  entity_lookup.clear();
+  systems.clear();
+  entities.clear();
+}
+
 void Manager::create_entities_from_file()
 {
   //This function is awful......
