@@ -62,7 +62,7 @@ int lua_manager_get_all_entities(lua_State *L)
   Manager * manager = get_manager(L);
   std::vector<int> entities = manager->get_all_entities();
   lua_createtable(L, entities.size(), 0);
-  int index = 0;
+  int index = 1;
   for (int entity : entities) {
     std::map<std::string, Component *> map = manager->get_all_components_map(entity);
     lua_createtable(L, 0, 0); //create the entity table

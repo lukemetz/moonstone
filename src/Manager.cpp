@@ -8,7 +8,7 @@
 
 Manager::Manager()
 {
-  on_entity = 0;
+  on_entity = 1; //Lua based start at 1
 }
 
 int Manager::createEntity()
