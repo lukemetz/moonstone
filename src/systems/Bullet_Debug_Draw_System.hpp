@@ -13,6 +13,7 @@ public:
   Bullet_Manager * bullet_manager = nullptr;
   Bullet_Debug_Draw_System() {};
   virtual void init();
+  virtual void remove();
   virtual void update(float dt);
   virtual std::string get_name() {
     return "Bullet_Debug_Draw_System";

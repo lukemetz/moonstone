@@ -19,3 +19,8 @@ void Bullet_Debug_Draw_System::update(float dt)
 {
   debug_drawer->step();
 }
+void Bullet_Debug_Draw_System::remove()
+{
+  bullet_manager->dynamics_world->setDebugDrawer(nullptr);
+  delete debug_drawer;
+}
