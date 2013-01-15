@@ -11,6 +11,7 @@ struct Lua_Component : public Component
   void set_name(std::string name);
   virtual std::string name();
   virtual int get_lua_ref(lua_State * L);
+  virtual void remove();
   void init_from_lua(lua_State * L);
 
 protected:
