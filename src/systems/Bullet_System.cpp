@@ -14,11 +14,14 @@ void Bullet_System::init()
 void Bullet_System::update(float dt)
 {
 
-  std::vector<std::string> mesh_types = {"Rigid_Body", "Transform"};
+  std::vector<std::string> mesh_types;
+  mesh_types.push_back(std::string("Rigid_Body"));
+  mesh_types.push_back(std::string("Transform"));
+
   auto entities = manager->get_entities(mesh_types);
   for (int entity : entities) {
-    Transform * t = static_cast<Transform *> (manager->get_component(entity, "Transform"));
-    Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, "Rigid_Body"));
+    Transform * t = static_cast<Transform *> (manager->get_component(entity, std::string("Transform")));
+    Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, std::string("Rigid_Body")));
     if (r->on_step == 0) {
       //Set the initial pos
       btTransform trans;
@@ -52,8 +55,8 @@ void Bullet_System::update(float dt)
 
   bullet_manager->dynamics_world->stepSimulation(dt);
   for (int entity : entities) {
-    Transform * t = static_cast<Transform *> (manager->get_component(entity, "Transform"));
-    Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, "Rigid_Body"));
+    Transform * t = static_cast<Transform *> (manager->get_component(entity, std::string("Transform")));
+    Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, std::string("Rigid_Body")));
     btVector3 vel = r->body->getLinearVelocity();
     r->velocity = Vec3f(vel.getX(), vel.getY(), vel.getZ());
   }
