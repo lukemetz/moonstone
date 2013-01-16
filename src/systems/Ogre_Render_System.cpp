@@ -26,8 +26,8 @@ void Ogre_Render_System::update(float dt)
       ogre_manager->camera->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
     }
   }
-
-  std::vector<std::string> mesh_types = {"Transform", "Mesh"};
+  std::string types[] = {"Transform", "Mesh"};
+  std::vector<std::string> mesh_types(types, types+sizeof(types));
   entities = manager->get_entities(mesh_types);
 
   for (int entity : entities) {
