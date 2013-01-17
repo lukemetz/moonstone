@@ -37,8 +37,8 @@ void Ogre_Render_System::update(float dt)
     mesh->scene_node->setOrientation(transform->rot.w, transform->rot.x, transform->rot.y, transform->rot.z);
     mesh->scene_node->setScale(transform->scale.x, transform->scale.y, transform->scale.z);
   }
-
-  std::vector<std::string> light_types = {"Transform", "Light"};
+  std::string l_types[] = {"Transform", "Light"};
+  std::vector<std::string> light_types(l_types, l_types+sizeof(l_types));
   entities = manager->get_entities(light_types);
 
   for (int entity : entities) {
