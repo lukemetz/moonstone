@@ -15,7 +15,7 @@ void Bullet_System::update(float dt)
 {
 
   std::string types[] = {"Rigid_Body", "Transform"};
-  std::vector<std::string> mesh_types(types, types+sizeof(types));
+  std::vector<std::string> mesh_types(types, types+2);
 
   auto entities = manager->get_entities(mesh_types);
   for (int entity : entities) {

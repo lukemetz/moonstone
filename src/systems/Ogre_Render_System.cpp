@@ -27,7 +27,7 @@ void Ogre_Render_System::update(float dt)
     }
   }
   std::string types[] = {"Transform", "Mesh"};
-  std::vector<std::string> mesh_types(types, types+sizeof(types));
+  std::vector<std::string> mesh_types(types, types+2);
   entities = manager->get_entities(mesh_types);
 
   for (int entity : entities) {
@@ -38,7 +38,7 @@ void Ogre_Render_System::update(float dt)
     mesh->scene_node->setScale(transform->scale.x, transform->scale.y, transform->scale.z);
   }
   std::string l_types[] = {"Transform", "Light"};
-  std::vector<std::string> light_types(l_types, l_types+sizeof(l_types));
+  std::vector<std::string> light_types(l_types, l_types+2);
   entities = manager->get_entities(light_types);
 
   for (int entity : entities) {
