@@ -8,6 +8,28 @@ Rigid_Body::Rigid_Body()
 {
 }
 
+void Rigid_Body::get_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name)
+{
+  int ref = Lua_Manager::get_instance()->to_lua_ref(vec);
+  lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+  lua_setfield(L, -2, name.c_str());
+}
+
+void Rigid_Body::init_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name)
+{
+  lua_getfield(L, -1, name.c_str());
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(vec);
+  lua_pop(L, 1);
+}
+
+void Rigid_Body::update_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name)
+{
+  lua_getfield(L, -1, name.c_str());
+  Lua_Manager::get_instance()->from_lua(vec);
+  lua_pop(L, 1);
+}
+
 int Rigid_Body::get_lua_ref(lua_State * L)
 {
   lua_newtable(L);
@@ -17,34 +39,20 @@ int Rigid_Body::get_lua_ref(lua_State * L)
   lua_pushnumber(L, friction);
   lua_setfield(L, -2, "friction");
 
-  int forces_ref = Lua_Manager::get_instance()->to_lua_ref(forces);
-  lua_rawgeti(L, LUA_REGISTRYINDEX, forces_ref);
-  lua_setfield(L, -2, "forces");
+  get_Vec3f_bind(L, forces, "forces");
+  
+  get_Vec3f_bind(L, velocity, "velocity");
 
-  int vel_ref = Lua_Manager::get_instance()->to_lua_ref(velocity);
-  lua_rawgeti(L, LUA_REGISTRYINDEX, vel_ref);
-  lua_setfield(L, -2, "velocity");
-
-  int angular_factor_ref = Lua_Manager::get_instance()->to_lua_ref(angular_factor);
-  lua_rawgeti(L, LUA_REGISTRYINDEX, angular_factor_ref);
-  lua_setfield(L, -2, "angular_factor");
-
-  int linear_factor_ref = Lua_Manager::get_instance()->to_lua_ref(linear_factor);
-  lua_rawgeti(L, LUA_REGISTRYINDEX, linear_factor_ref);
-  lua_setfield(L, -2, "linear_factor");
+  get_Vec3f_bind(L, angular_factor, "angular_factor");
+  get_Vec3f_bind(L, linear_factor, "linear_factor");
 
   return luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
 void Rigid_Body::update_from_lua(lua_State * L)
 {
-  lua_getfield(L, -1, "forces");
-  Lua_Manager::get_instance()->from_lua(forces);
-  lua_pop(L, 1);
-
-  lua_getfield(L, -1, "velocity");
-  Lua_Manager::get_instance()->from_lua(velocity);
-  lua_pop(L, 1);
+  update_Vec3f_bind(L, forces, "forces");
+  update_Vec3f_bind(L, velocity, "velocity");
 
   lua_getfield(L, -1, "mass");
   mass = lua_tonumber(L, -1);
@@ -53,14 +61,9 @@ void Rigid_Body::update_from_lua(lua_State * L)
   lua_getfield(L, -1, "friction");
   friction = lua_tonumber(L, -1);
   lua_pop(L, 1);
-  
-  lua_getfield(L, -1, "linear_factor");
-  Lua_Manager::get_instance()->from_lua(linear_factor);
-  lua_pop(L, 1);
-
-  lua_getfield(L, -1, "angular_factor");
-  Lua_Manager::get_instance()->from_lua(angular_factor);
-  lua_pop(L, 1);
+ 
+  update_Vec3f_bind(L, angular_factor, "angular_factor");
+  update_Vec3f_bind(L, linear_factor, "linear_factor");
 
 }
 
@@ -76,40 +79,30 @@ void Rigid_Body::init_from_lua(lua_State * L)
     friction = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
-  lua_getfield(L, -1, "offset");
-  if(!lua_isnil(L, -1))
-    Lua_Manager::get_instance()->from_lua(offset);
-  lua_pop(L, 1);
-
   lua_getfield(L, -1, "linear_damping");
   if(!lua_isnil(L, -1))
     linear_damping = lua_tonumber(L, -1);
   lua_pop(L, 1);
-
+  
   lua_getfield(L, -1, "angular_damping");
   if(!lua_isnil(L, -1))
     angular_damping = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
-  lua_getfield(L, -1, "forces");
+  lua_getfield(L, -1, "friction");
   if(!lua_isnil(L, -1))
-    Lua_Manager::get_instance()->from_lua(offset);
+    friction = lua_tonumber(L, -1);
   lua_pop(L, 1);
 
-  lua_getfield(L, -1, "velocity");
-  if(!lua_isnil(L, -1))
-    Lua_Manager::get_instance()->from_lua(velocity);
-  lua_pop(L, 1);
+  init_Vec3f_bind(L, offset, "offset");
 
-  lua_getfield(L, -1, "linear_factor");
-  if(!lua_isnil(L, -1))
-    Lua_Manager::get_instance()->from_lua(linear_factor);
-  lua_pop(L, 1);
+  init_Vec3f_bind(L, linear_factor, "linear_factor");
+  init_Vec3f_bind(L, angular_factor, "angular_factor");
 
-  lua_getfield(L, -1, "angular_factor");
-  if(!lua_isnil(L, -1))
-    Lua_Manager::get_instance()->from_lua(angular_factor);
-  lua_pop(L, 1);
+  init_Vec3f_bind(L, forces, "forces");
+
+  init_Vec3f_bind(L, velocity, "velocity");
+  init_Vec3f_bind(L, torque, "torque");
 }
 
 void Rigid_Body::added_to_entity(Manager * manager, int entity)

@@ -21,11 +21,18 @@ struct Rigid_Body : public Component
   float mass = 0;
   float friction = 0;
   Vec3f forces = Vec3f(0,0,0);
+  Vec3f torque = Vec3f(0,0,0);
   Vec3f velocity = Vec3f(0,0,0);
+  Vec3f angular_velocity = Vec3f(0,0,0);
   float linear_damping = 0;
   float angular_damping = 0;
   Vec3f angular_factor = Vec3f(1,1,1);
   Vec3f linear_factor = Vec3f(1,1,1);
   //Protected
   int on_step = 0;
+
+protected:
+  void get_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name);
+  void init_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name);
+  void update_Vec3f_bind(lua_State *L, Vec3f &vec, std::string name);
 };
