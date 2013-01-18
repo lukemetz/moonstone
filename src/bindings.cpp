@@ -24,6 +24,9 @@ void lua_setup_manager(lua_State *L, Manager * manager)
 
   lua_pushcfunction(L, &lua_manager_update_all_entities);
   lua_setfield(L, -2, "update_all_entities");
+  
+  lua_pushcfunction(L, &lua_manager_get_component);
+  lua_setfield(L, -2, "get_component");
 
   lua_setfield(L, -2, "manager");
   lua_pop(L, 1);
@@ -96,4 +99,19 @@ int lua_manager_update_all_entities(lua_State *L)
   }
   lua_pop(L, 1);
   return 0;
+}
+
+int lua_manager_get_component(lua_State *L)
+{
+  Manager * manager = get_manager(L);
+  int entity = static_cast<int>(lua_tonumber(L, 2));
+  std::string component_name = lua_tostring(L, 3);
+
+  Component * component = manager->get_component(entity, component_name);
+  if (component == nullptr) {
+    lua_pushnil(L);
+  } else {
+    lua_rawgeti(L, LUA_REGISTRYINDEX, component->get_lua_ref(L));
+  }
+  return 1;
 }
