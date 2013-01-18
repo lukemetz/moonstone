@@ -50,6 +50,15 @@ void Bullet_System::update(float dt)
     r->body->applyCentralForce(btVector3(r->forces.x, r->forces.y, r->forces.z));
     r->body->setFriction(r->friction);
 
+    r->body->setAngularFactor(btVector3(
+          r->angular_factor.x,
+          r->angular_factor.y,
+          r->angular_factor.z ));
+
+    r->body->setLinearFactor(btVector3(
+          r->linear_factor.x,
+          r->linear_factor.y,
+          r->linear_factor.z ));
   }
 
   bullet_manager->dynamics_world->stepSimulation(dt);

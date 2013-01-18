@@ -25,6 +25,14 @@ int Rigid_Body::get_lua_ref(lua_State * L)
   lua_rawgeti(L, LUA_REGISTRYINDEX, vel_ref);
   lua_setfield(L, -2, "velocity");
 
+  int angular_factor_ref = Lua_Manager::get_instance()->to_lua_ref(angular_factor);
+  lua_rawgeti(L, LUA_REGISTRYINDEX, angular_factor_ref);
+  lua_setfield(L, -2, "angular_factor");
+
+  int linear_factor_ref = Lua_Manager::get_instance()->to_lua_ref(linear_factor);
+  lua_rawgeti(L, LUA_REGISTRYINDEX, linear_factor_ref);
+  lua_setfield(L, -2, "linear_factor");
+
   return luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
@@ -44,6 +52,14 @@ void Rigid_Body::update_from_lua(lua_State * L)
 
   lua_getfield(L, -1, "friction");
   friction = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+  
+  lua_getfield(L, -1, "linear_factor");
+  Lua_Manager::get_instance()->from_lua(linear_factor);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "angular_factor");
+  Lua_Manager::get_instance()->from_lua(angular_factor);
   lua_pop(L, 1);
 
 }
@@ -83,6 +99,16 @@ void Rigid_Body::init_from_lua(lua_State * L)
   lua_getfield(L, -1, "velocity");
   if(!lua_isnil(L, -1))
     Lua_Manager::get_instance()->from_lua(velocity);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "linear_factor");
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(linear_factor);
+  lua_pop(L, 1);
+
+  lua_getfield(L, -1, "angular_factor");
+  if(!lua_isnil(L, -1))
+    Lua_Manager::get_instance()->from_lua(angular_factor);
   lua_pop(L, 1);
 }
 
