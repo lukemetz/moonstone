@@ -24,6 +24,8 @@ void Ogre_Render_System::update(float dt)
     ogre_manager->camera->setNearClipDistance(camera->near_clip);//camera->near_clip);
     if (transform) {
       ogre_manager->camera->setPosition(transform->pos.x, transform->pos.y, transform->pos.z);
+      ogre_manager->camera->setOrientation(
+          Ogre::Quaternion(transform->rot.w, transform->rot.x, transform->rot.y, transform->rot.z));
     }
   }
   std::string types[] = {"Transform", "Mesh"};
