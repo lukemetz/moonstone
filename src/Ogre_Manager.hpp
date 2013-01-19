@@ -71,6 +71,11 @@ public:
   static Ogre_Manager* instance;
 
   DeferredShadingSystem * deferred_shading_system;
+
+  unsigned int get_height();
+  unsigned int get_width();
+
 protected:
   void setup_framelistener();
+  unsigned int width, height;
 };

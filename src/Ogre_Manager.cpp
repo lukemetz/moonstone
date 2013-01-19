@@ -327,3 +327,12 @@ bool Ogre_Manager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
   camera_man->injectMouseUp(arg, id);
   return true;
 }
+unsigned int Ogre_Manager::get_width()
+{
+  return width;
+}
+
+unsigned int Ogre_Manager::get_height()
+{
+  return height;
+}

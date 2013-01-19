@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 
+#include "Ogre_Manager.hpp"
+
 void lua_setup_manager(lua_State *L, Manager * manager)
 {
   lua_pushglobaltable(L);
@@ -24,9 +26,12 @@ void lua_setup_manager(lua_State *L, Manager * manager)
 
   lua_pushcfunction(L, &lua_manager_update_all_entities);
   lua_setfield(L, -2, "update_all_entities");
-  
+
   lua_pushcfunction(L, &lua_manager_get_component);
   lua_setfield(L, -2, "get_component");
+
+  lua_pushcfunction(L, &lua_manager_get_frame_size);
+  lua_setfield(L, -2, "get_frame_size");
 
   lua_setfield(L, -2, "manager");
   lua_pop(L, 1);
@@ -114,4 +119,11 @@ int lua_manager_get_component(lua_State *L)
     lua_rawgeti(L, LUA_REGISTRYINDEX, component->get_lua_ref(L));
   }
   return 1;
+}
+
+int lua_manager_get_frame_size(lua_State *L)
+{
+  lua_pushnumber(L, Ogre_Manager::get_instance()->get_width());
+  lua_pushnumber(L, Ogre_Manager::get_instance()->get_height());
+  return 2;
 }
