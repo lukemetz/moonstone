@@ -29,6 +29,7 @@ public:
 
   void populate_inputs(bool * keys,
                        bool * mouse,
+                       int * mouse_dx, int * mouse_dy,
                        int * mouse_x, int * mouse_y);
 
   static OIS_Input_Manager * get_instance();

@@ -15,6 +15,8 @@ OIS_Input_System::OIS_Input_System()
   mouse = (bool *)calloc(num_mouse, sizeof(bool));
   mouse_dx = (int *)calloc(1, sizeof(int));
   mouse_dy = (int *)calloc(1, sizeof(int));
+  mouse_x = (int *)calloc(1, sizeof(int));
+  mouse_y = (int *)calloc(1, sizeof(int));
 }
 
 OIS_Input_System::~OIS_Input_System()
@@ -45,6 +47,12 @@ void OIS_Input_System::init()
 
   lua_pushnumber(L, 0);
   lua_setfield(L, -2, "mouse_y");
+  
+  lua_pushnumber(L, 0);
+  lua_setfield(L, -2, "mouse_dx");
+
+  lua_pushnumber(L, 0);
+  lua_setfield(L, -2, "mouse_dy");
 
   lua_setfield(L, -1, "__input");
   lua_pop(L, 1);
@@ -56,7 +64,9 @@ void OIS_Input_System::init()
 
 void OIS_Input_System::update(float dt)
 {
-  OIS_Input_Manager::get_instance()->populate_inputs(keys, mouse, mouse_dx, mouse_dy);
+  OIS_Input_Manager::get_instance()->populate_inputs(keys, mouse,
+      mouse_dx, mouse_dy,
+      mouse_x, mouse_y);
 
   std::vector<int> entities = manager->get_entities("Input");
   for(int entity : entities) {
@@ -65,6 +75,8 @@ void OIS_Input_System::update(float dt)
     i->mouse = mouse;
     i->mouse_dx = mouse_dx;
     i->mouse_dy = mouse_dy;
+    i->mouse_x = mouse_x;
+    i->mouse_y = mouse_y;
   }
   update_lua();
 }
@@ -93,4 +105,10 @@ void OIS_Input_System::update_lua()
 
   lua_pushnumber(L, *mouse_dy);
   lua_setfield(L, -2, "mouse_dy");
+
+  lua_pushnumber(L, *mouse_x);
+  lua_setfield(L, -2, "mouse_x");
+
+  lua_pushnumber(L, *mouse_y);
+  lua_setfield(L, -2, "mouse_y");
 }

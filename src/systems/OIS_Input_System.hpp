@@ -13,6 +13,8 @@ struct OIS_Input_System : public System
   }
   bool *keys;
   bool *mouse;
+  int *mouse_x;
+  int *mouse_y;
   int *mouse_dx;
   int *mouse_dy;
 protected:

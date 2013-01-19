@@ -77,6 +77,7 @@ void OIS_Input_Manager::capture()
 
 void OIS_Input_Manager::populate_inputs(bool * keys,
                                         bool * mouse_buttons,
+                                        int * mouse_dx, int * mouse_dy,
                                         int * mouse_x, int * mouse_y)
 {
   for(int i=0; i < 222; i++) {
@@ -87,8 +88,11 @@ void OIS_Input_Manager::populate_inputs(bool * keys,
     mouse_buttons[i] = ms.buttonDown((OIS::MouseButtonID)i);
   }
 
-  *mouse_x = ms.X.rel;
-  *mouse_y = ms.Y.rel;
+  *mouse_x = ms.X.abs;
+  *mouse_y = ms.Y.abs;
+
+  *mouse_dx = ms.X.rel;
+  *mouse_dy = ms.Y.rel;
 }
 
 OIS_Input_Manager * OIS_Input_Manager::get_instance()
