@@ -1,10 +1,11 @@
 systems = {
-  "Bullet_System",
   "Ogre_Render_System",
   "OIS_Input_System",
   "Bullet_Debug_Draw_System",
   "player_mover",
+  "camera_controller",
   "Pause_System",
+  "Bullet_System",
   }
 
 
