@@ -90,7 +90,7 @@ bool Ogre_Manager::go()
   camera->lookAt(Ogre::Vector3(0,0,0));
   camera->setNearClipDistance(5);
 
-  camera_man = new OgreBites::SdkCameraMan(camera);
+  //camera_man = new OgreBites::SdkCameraMan(camera);
   Ogre::Viewport * vp = window->addViewport(camera);
   vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
 
@@ -161,7 +161,7 @@ bool Ogre_Manager::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
   if (!tray_mgr->isDialogVisible())
   {
-      camera_man->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
+      //camera_man->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
       if (details_panel->isVisible())   // if details panel is visible, then update its contents
       {
           details_panel->setParamValue(0, Ogre::StringConverter::toString(camera->getDerivedPosition().x));
@@ -182,7 +182,7 @@ bool Ogre_Manager::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //Adjust mouse clipping area
 void Ogre_Manager::windowResized(Ogre::RenderWindow* rw)
 {
-  unsigned int width, height, depth;
+  unsigned int depth;
   int left, top;
   rw->getMetrics(width, height, depth, left, top);
   input_manager->update_clipping_area(width, height);
@@ -297,36 +297,37 @@ bool Ogre_Manager::keyPressed( const OIS::KeyEvent &arg )
       shutdown = true;
   }
 
-  camera_man->injectKeyDown(arg);
+  //camera_man->injectKeyDown(arg);
   return true;
 }
 
 bool Ogre_Manager::keyReleased( const OIS::KeyEvent &arg )
 {
-  camera_man->injectKeyUp(arg);
+  //camera_man->injectKeyUp(arg);
   return true;
 }
 
 bool Ogre_Manager::mouseMoved( const OIS::MouseEvent &arg )
 {
   if (tray_mgr->injectMouseMove(arg)) return true;
-  camera_man->injectMouseMove(arg);
+  //camera_man->injectMouseMove(arg);
   return true;
 }
 
 bool Ogre_Manager::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
   if (tray_mgr->injectMouseDown(arg, id)) return true;
-  camera_man->injectMouseDown(arg, id);
+  //camera_man->injectMouseDown(arg, id);
   return true;
 }
 
 bool Ogre_Manager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
   if (tray_mgr->injectMouseUp(arg, id)) return true;
-  camera_man->injectMouseUp(arg, id);
+  //camera_man->injectMouseUp(arg, id);
   return true;
 }
+
 unsigned int Ogre_Manager::get_width()
 {
   return width;
