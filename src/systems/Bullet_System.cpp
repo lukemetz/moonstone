@@ -48,8 +48,13 @@ void Bullet_System::update(float dt)
     //update the rigid body
     r->body->clearForces();
     r->body->applyCentralForce(btVector3(r->forces.x, r->forces.y, r->forces.z));
+
+    r->body->applyTorque(btVector3(r->torque.x, r->torque.y, r->torque.z));
+    
     r->body->setFriction(r->friction);
 
+    r->body->setAngularVelocity(btVector3(r->angular_velocity.x, r->angular_velocity.y, r->angular_velocity.z));
+    
     r->body->setAngularFactor(btVector3(
           r->angular_factor.x,
           r->angular_factor.y,
@@ -67,5 +72,9 @@ void Bullet_System::update(float dt)
     Rigid_Body * r = static_cast<Rigid_Body *> (manager->get_component(entity, std::string("Rigid_Body")));
     btVector3 vel = r->body->getLinearVelocity();
     r->velocity = Vec3f(vel.getX(), vel.getY(), vel.getZ());
+
+    btVector3 angular_vel = r->body->getAngularVelocity();
+    r->angular_velocity = Vec3f(angular_vel.getX(), angular_vel.getY(), angular_vel.getZ());
+
   }
 }
