@@ -43,18 +43,31 @@ void Bullet_System::update(float dt)
                    trans.getRotation().getY(),
                    trans.getRotation().getZ(),
                    trans.getRotation().getW());
-    r->body->setLinearVelocity(btVector3(r->velocity.x, r->velocity.y, r->velocity.z));
+
 
     //update the rigid body
-    r->body->clearForces();
-    r->body->applyCentralForce(btVector3(r->forces.x, r->forces.y, r->forces.z));
+    r->body->setLinearVelocity(btVector3(
+          r->velocity.x,
+          r->velocity.y,
+          r->velocity.z));
 
-    r->body->applyTorque(btVector3(r->torque.x, r->torque.y, r->torque.z));
-    
+    r->body->clearForces();
+    r->body->applyCentralForce(btVector3(r->forces.x,
+          r->forces.y,
+          r->forces.z));
+
+    r->body->applyTorque(btVector3(
+          r->torque.x,
+          r->torque.y,
+          r->torque.z));
+
     r->body->setFriction(r->friction);
 
-    r->body->setAngularVelocity(btVector3(r->angular_velocity.x, r->angular_velocity.y, r->angular_velocity.z));
-    
+    r->body->setAngularVelocity(btVector3(
+          r->angular_velocity.x,
+          r->angular_velocity.y,
+          r->angular_velocity.z));
+
     r->body->setAngularFactor(btVector3(
           r->angular_factor.x,
           r->angular_factor.y,
@@ -75,6 +88,5 @@ void Bullet_System::update(float dt)
 
     btVector3 angular_vel = r->body->getAngularVelocity();
     r->angular_velocity = Vec3f(angular_vel.getX(), angular_vel.getY(), angular_vel.getZ());
-
   }
 }
