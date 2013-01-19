@@ -8,11 +8,12 @@ systems = {
   }
 
 
+-- helper functions that should be moved
 entities = {}
 function add_entity(entity)
   assert(type(entity) == "table", "entity must be a table")
   table.insert(entities, entity)
-  return #entities - 1
+  return #entities
 end
 
 function add_entities(entity_array)
